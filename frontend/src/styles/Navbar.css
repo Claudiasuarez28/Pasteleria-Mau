@@ -1,0 +1,223 @@
+
+.navbar-maue {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: rgba(251, 248, 243, 0.97);
+    border-bottom: 1px solid #e9dfd6;
+    backdrop-filter: blur(12px);
+}
+
+.navbar-contenido {
+    width: min(1400px, 100%);
+    min-height: 96px;
+    margin: 0 auto;
+    padding: 14px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.navbar-logo {
+    display: inline-block;
+    flex-shrink: 0;
+    color: #352922;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 35px;
+    font-weight: 500;
+    letter-spacing: 6px;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.navbar-logo:hover {
+    color: #a96760;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(16px, 2.4vw, 38px);
+}
+
+.navbar-enlace {
+    position: relative;
+    padding: 9px 0;
+    color: #49343a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.navbar-enlace::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 0;
+    height: 1px;
+    background: #a96760;
+    transition: width 0.25s ease;
+}
+
+.navbar-enlace:hover,
+.navbar-enlace.activo {
+    color: #a96760;
+}
+
+.navbar-enlace:hover::after,
+.navbar-enlace.activo::after {
+    width: 100%;
+}
+
+.navbar-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 17px;
+    flex-shrink: 0;
+}
+
+.navbar-carrito {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    color: #49343a;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.navbar-carrito:hover {
+    color: #a96760;
+}
+
+.navbar-carrito svg {
+    width: 23px;
+    height: 23px;
+}
+
+.navbar-contador {
+    position: absolute;
+    top: -2px;
+    right: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 50px;
+    background: #a96760;
+    color: #fffdfa;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    line-height: 1;
+}
+
+.navbar-sesion,
+.navbar-admin {
+    border: 1px solid #d7b5ad;
+    padding: 10px 14px;
+    background: transparent;
+    color: #49343a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.navbar-sesion:hover,
+.navbar-admin:hover {
+    background: #a96760;
+    color: #fffdfa;
+}
+
+@media (max-width: 1050px) {
+    .navbar-contenido {
+        gap: 18px;
+        padding-right: 3%;
+        padding-left: 3%;
+    }
+
+    .navbar-menu {
+        gap: 17px;
+    }
+
+    .navbar-enlace {
+        font-size: 12px;
+    }
+
+    .navbar-acciones {
+        gap: 10px;
+    }
+
+    .navbar-logo {
+        font-size: 31px;
+        letter-spacing: 5px;
+    }
+}
+
+@media (max-width: 760px) {
+    .navbar-contenido {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 5%;
+    }
+
+    .navbar-logo {
+        font-size: 30px;
+        letter-spacing: 4px;
+    }
+
+    .navbar-acciones {
+        gap: 10px;
+    }
+
+    .navbar-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: clamp(12px, 4vw, 25px);
+        padding: 7px 0 3px;
+        border-top: 1px solid #e9dfd6;
+    }
+
+    .navbar-enlace {
+        font-size: 11px;
+    }
+
+    .navbar-sesion,
+    .navbar-admin {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 420px) {
+    .navbar-menu {
+        gap: 12px;
+    }
+
+    .navbar-enlace {
+        font-size: 10px;
+    }
+
+    .navbar-sesion,
+    .navbar-admin {
+        padding: 7px 8px;
+        font-size: 10px;
+    }
+}

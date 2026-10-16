@@ -1,0 +1,398 @@
+
+/* ============================================
+   MAUÉ — NUESTRA COLECCIÓN
+============================================ */
+
+.pagina-productos {
+    --crema: #fbf8f4;
+    --rosa: #f5e9e5;
+    --rosa-claro: #f8efeb;
+    --chocolate: #35251f;
+    --terracota: #a85f70;
+    --texto: #75645c;
+    --linea: #e9ded6;
+
+    width: 100%;
+    min-height: 80vh;
+    padding: 65px 6.2% 100px;
+    margin: 0;
+    background: var(--crema);
+    color: var(--chocolate);
+    font-family: "DM Sans", Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.pagina-productos *,
+.pagina-productos *::before,
+.pagina-productos *::after {
+    box-sizing: border-box;
+}
+
+/* ============================================
+   ENCABEZADO
+============================================ */
+
+.encabezado-productos {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto 48px;
+    text-align: center;
+}
+
+.etiqueta-productos {
+    margin: 0 0 17px;
+    color: var(--terracota);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+}
+
+.encabezado-productos h1 {
+    margin: 0;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(43px, 5vw, 61px);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.encabezado-productos h1 em {
+    color: var(--terracota);
+    font-weight: 400;
+}
+
+.descripcion-productos {
+    margin: 18px 0 0;
+    color: var(--texto);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* ============================================
+   CATÁLOGO
+============================================ */
+
+.catalogo-productos {
+    width: 100%;
+    max-width: 1308px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   FILTROS
+============================================ */
+
+.filtros-productos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 35px;
+    margin: 0 auto 43px;
+    padding: 0 0 17px;
+    border-bottom: 1px solid var(--linea);
+}
+
+.filtro-producto {
+    position: relative;
+    padding: 0 0 8px;
+    border: 0;
+    background: transparent;
+    color: #82736c;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.filtro-producto:hover {
+    color: var(--terracota);
+}
+
+.filtro-producto.activo {
+    color: var(--terracota);
+    font-weight: 600;
+}
+
+.filtro-producto.activo::after {
+    position: absolute;
+    right: 0;
+    bottom: -18px;
+    left: 0;
+    height: 2px;
+    background: var(--terracota);
+    content: "";
+}
+
+/* ============================================
+   REJILLA DE PRODUCTOS
+============================================ */
+
+.rejilla-productos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 30px;
+    row-gap: 42px;
+    width: 100%;
+}
+
+/* ============================================
+   TARJETAS
+============================================ */
+
+.tarjeta-producto {
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.producto-fotografia {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    overflow: hidden;
+    background: var(--rosa-claro);
+}
+
+.producto-fotografia img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.tarjeta-producto:hover .producto-fotografia img {
+    transform: scale(1.04);
+}
+
+/* Espacio temporal para fotografías */
+
+.producto-imagen-placeholder {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(
+        145deg,
+        #f8efeb,
+        #f0dfd9
+    );
+    color: var(--terracota);
+}
+
+.producto-imagen-placeholder span {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 32px;
+    letter-spacing: 5px;
+}
+
+.producto-imagen-placeholder small {
+    color: #987e74;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+}
+
+/* Categoría */
+
+.producto-etiqueta {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 8px 12px;
+    background: rgba(251, 248, 244, 0.92);
+    color: var(--terracota);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   INFORMACIÓN
+============================================ */
+
+.producto-informacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 0 0;
+}
+
+.producto-textos {
+    min-width: 0;
+}
+
+.producto-textos h2 {
+    margin: 0 0 8px;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.producto-precio {
+    margin: 0;
+    color: var(--terracota);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ============================================
+   BOTÓN AGREGAR
+============================================ */
+
+.boton-agregar-producto {
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 0 17px;
+    border: 1px solid var(--chocolate);
+    background: transparent;
+    color: var(--chocolate);
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.boton-agregar-producto:hover:not(:disabled) {
+    background: var(--chocolate);
+    color: #fff;
+}
+
+.boton-agregar-producto:disabled {
+    border-color: #d8cbc4;
+    color: #a99b94;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   SIN RESULTADOS
+============================================ */
+
+.productos-sin-resultados {
+    padding: 65px 20px;
+    text-align: center;
+}
+
+.productos-sin-resultados h2 {
+    margin: 0 0 12px;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.productos-sin-resultados p {
+    margin: 0;
+    color: var(--texto);
+    font-size: 13px;
+}
+
+/* ============================================
+   TABLET
+============================================ */
+
+@media (max-width: 1000px) {
+    .pagina-productos {
+        padding: 55px 4% 80px;
+    }
+
+    .rejilla-productos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px 22px;
+    }
+
+    .producto-fotografia {
+        height: 280px;
+    }
+
+    .filtros-productos {
+        gap: 25px;
+    }
+}
+
+/* ============================================
+   MÓVIL
+============================================ */
+
+@media (max-width: 600px) {
+    .pagina-productos {
+        padding: 43px 20px 65px;
+    }
+
+    .encabezado-productos {
+        margin-bottom: 35px;
+    }
+
+    .encabezado-productos h1 {
+        font-size: 40px;
+    }
+
+    .descripcion-productos {
+        max-width: 330px;
+        margin: 15px auto 0;
+        font-size: 12px;
+    }
+
+    .filtros-productos {
+        justify-content: flex-start;
+        gap: 23px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        margin-bottom: 30px;
+        padding-bottom: 17px;
+    }
+
+    .filtro-producto {
+        flex-shrink: 0;
+    }
+
+    .rejilla-productos {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 35px;
+    }
+
+    .producto-fotografia {
+        height: 330px;
+    }
+
+    .producto-textos h2 {
+        font-size: 21px;
+    }
+}
+
+/* ============================================
+   MÓVILES PEQUEÑOS
+============================================ */
+
+@media (max-width: 380px) {
+    .producto-fotografia {
+        height: 270px;
+    }
+
+    .producto-informacion {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .boton-agregar-producto {
+        width: 100%;
+    }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+    .pagina-productos *,
+    .pagina-productos *::before,
+    .pagina-productos *::after {
+        transition: none !important;
+    }
+}

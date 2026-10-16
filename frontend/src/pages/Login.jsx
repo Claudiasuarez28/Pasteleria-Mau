@@ -1,110 +1,182 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 function Login() {
+const [correo, setCorreo] = useState("");
+const [contrasena, setContrasena] = useState("");
+const [error, setError] = useState("");
+const [mostrarContrasena, setMostrarContrasena] = useState(false);
+const [cargando, setCargando] = useState(false);
 
-    const [correo, setCorreo] = useState("");
-    const [contrasena, setContrasena] = useState("");
-    const [error, setError] = useState("");
+const navigate = useNavigate();
 
-    const navigate = useNavigate();
+const iniciarSesion = (e) => {
+    e.preventDefault();
+    setError("");
 
-    const iniciarSesion = (e) => {
+    const correoNormalizado = correo.trim().toLowerCase();
 
-        e.preventDefault();
+    // Acceso administrativo de demostración.
+    // En producción, valida las credenciales en el backend.
+    if (
+        correoNormalizado === "admin@maue.com" &&
+        contrasena === "admin123"
+    ) {
+        localStorage.setItem(
+            "usuarioMaue",
+            JSON.stringify({
+                correo: correoNormalizado,
+                rol: "administrador"
+            })
+        );
 
-        setError("");
+        navigate("/admin");
+        return;
+    }
 
-        if (
-            correo === "admin@maue.com" &&
-            contrasena === "admin123"
-        ) {
+    setError(
+        "Correo o contraseña incorrectos. Este acceso es exclusivo para el administrador."
+    );
+};
 
-            localStorage.setItem(
-                "usuarioMaue",
-                JSON.stringify({
-                    correo,
-                    rol: "administrador"
-                })
-            );
+return (
+    <main className="pagina-login">
+        {/* Marca única de MAUÉ */}
+        <header className="login-barra-superior">
+            <Link to="/" className="login-marca">
+                MAUÉ
+                <span>PASTELERÍA DE AUTOR</span>
+            </Link>
 
-            navigate("/admin");
+            <Link to="/" className="login-enlace-inicio">
+                ← Volver al inicio
+            </Link>
+        </header>
 
-            return;
-        }
+        {/* Tarjeta de acceso */}
+        <section className="login-contenedor">
+            <Link to="/" className="login-volver">
+                <span aria-hidden="true">←</span>
+                Regresar a la tienda
+            </Link>
 
-        if (
-            correo === "usuario@maue.com" &&
-            contrasena === "usuario123"
-        ) {
+            <div className="login-encabezado">
+                <p className="login-etiqueta">
+                    ESPACIO PRIVADO
+                </p>
 
-            localStorage.setItem(
-                "usuarioMaue",
-                JSON.stringify({
-                    correo,
-                    rol: "usuario"
-                })
-            );
+                <h1>Bienvenida de nuevo</h1>
 
-            navigate("/productos");
+                <p className="login-descripcion">
+                    Ingresa a tu espacio de administración
+                    para gestionar las creaciones de MAUÉ.
+                </p>
+            </div>
 
-            return;
-        }
+            <div className="login-separador" aria-hidden="true">
+                <span></span>
+                <span className="login-separador-diamante">✧</span>
+                <span></span>
+            </div>
 
-        setError("Correo o contraseña incorrectos.");
-    };
+            <form
+                className="login-formulario"
+                onSubmit={iniciarSesion}
+            >
+                <label htmlFor="correo">
+                    Correo electrónico
+                </label>
 
-    return (
-        <main className="pagina-login">
+                <input
+                    id="correo"
+                    type="email"
+                    name="correo"
+                    placeholder="admin@maue.com"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                    autoComplete="username"
+                    required
+                />
 
-            <section className="login-contenedor">
+                <label htmlFor="contrasena">
+                    Contraseña
+                </label>
 
-                <p>MAÚ</p>
-
-                <h1>Iniciar sesión</h1>
-
-                <span>
-                    Ingresa para continuar
-                </span>
-
-                <form onSubmit={iniciarSesion}>
-
+                <div className="login-campo-contrasena">
                     <input
-                        type="email"
-                        placeholder="Correo electrónico"
-                        value={correo}
-                        onChange={(e) =>
-                            setCorreo(e.target.value)
-                        }
-                        required
-                    />
-
-                    <input
-                        type="password"
-                        placeholder="Contraseña"
+                        id="contrasena"
+                        type={mostrarContrasena ? "text" : "password"}
+                        name="contrasena"
+                        placeholder="Ingresa tu contraseña"
                         value={contrasena}
                         onChange={(e) =>
                             setContrasena(e.target.value)
                         }
+                        autoComplete="current-password"
                         required
                     />
 
-                    {error && (
-                        <p className="mensaje-error">
-                            {error}
-                        </p>
-                    )}
-
-                    <button type="submit">
-                        Iniciar sesión
+                    <button
+                        type="button"
+                        className="login-mostrar-contrasena"
+                        onClick={() =>
+                            setMostrarContrasena(!mostrarContrasena)
+                        }
+                        aria-label={
+                            mostrarContrasena
+                                ? "Ocultar contraseña"
+                                : "Mostrar contraseña"
+                        }
+                    >
+                        {mostrarContrasena ? "Ocultar" : "Mostrar"}
                     </button>
+                </div>
 
-                </form>
+                {error && (
+                    <div
+                        className="login-mensaje-error"
+                        role="alert"
+                    >
+                        <span aria-hidden="true">!</span>
+                        <p>{error}</p>
+                    </div>
+                )}
 
-            </section>
+                <button
+                    type="submit"
+                    className="login-boton"
+                    disabled={cargando}
+                >
+                    <span>
+                        {cargando
+                            ? "Verificando..."
+                            : "Iniciar sesión"}
+                    </span>
 
-        </main>
-    );
+                    <span className="login-flecha" aria-hidden="true">
+                        →
+                    </span>
+                </button>
+            </form>
+
+            <div className="login-pie">
+                <span className="login-pie-icono" aria-hidden="true">
+                    ✧
+                </span>
+
+                <p>Hecho con delicadeza, pensado para ti.</p>
+            </div>
+        </section>
+
+        <footer className="login-copyright">
+            <span>© 2026 MAUÉ. Hecho con delicadeza.</span>
+            <span>Pastelería de autor</span>
+        </footer>
+    </main>
+);
+
+
 }
 
 export default Login;

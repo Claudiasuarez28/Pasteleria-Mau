@@ -1,28 +1,72 @@
+
 function ProductoCard({ producto, agregarAlCarrito }) {
+    const formatoPrecio = (precio) =>
+        `$${Number(precio || 0).toLocaleString("es-CO")}`;
+
+    const rutaImagen = producto.imagen
+        ? producto.imagen.startsWith("http")
+            ? producto.imagen
+            : producto.imagen.startsWith("/")
+                ? producto.imagen
+                : `/images/${producto.imagen}`
+        : null;
+
     return (
-        <div className="producto">
-            <h3>{producto.nombre}</h3>
+        <article className="tarjeta-producto">
 
-            <p className="precio">
-                ${producto.precio.toLocaleString("es-CO")}
-            </p>
+            <div className="producto-fotografia">
 
-            <p>
-                Categoría: {producto.categoria}
-            </p>
+                {rutaImagen ? (
+                    <img
+                        src={rutaImagen}
+                        alt={producto.nombre}
+                        onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                            e.currentTarget.nextSibling.style.display = "flex";
+                        }}
+                    />
+                ) : null}
 
-            <p>
-                {producto.disponibilidad
-                    ? "Disponible"
-                    : "No disponible"}
-            </p>
+                <div
+                    className="producto-imagen-placeholder"
+                    style={{
+                        display: rutaImagen ? "none" : "flex"
+                    }}
+                >
+                    <span>MAUÉ</span>
+                    <small>Una creación especial</small>
+                </div>
 
-            {producto.disponibilidad && (
-                <button onClick={() => agregarAlCarrito(producto)}>
-                    Agregar al carrito
+                <span className="producto-etiqueta">
+                    {producto.categoria || "Especial"}
+                </span>
+
+            </div>
+
+            <div className="producto-informacion">
+
+                <div className="producto-textos">
+                    <h2>{producto.nombre}</h2>
+
+                    <p className="producto-precio">
+                        {formatoPrecio(producto.precio)}
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    className="boton-agregar-producto"
+                    disabled={!producto.disponibilidad}
+                    onClick={() => agregarAlCarrito(producto)}
+                >
+                    {producto.disponibilidad
+                        ? "Agregar +"
+                        : "No disponible"}
                 </button>
-            )}
-        </div>
+
+            </div>
+
+        </article>
     );
 }
 

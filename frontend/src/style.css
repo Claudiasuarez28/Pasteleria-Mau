@@ -23,7 +23,6 @@ button {
     font-family: inherit;
 }
 
-
 /* ================================
    NAVBAR
 ================================ */
@@ -91,9 +90,8 @@ button {
     font-weight: bold;
 }
 
-
 /* ================================
-   BOTÓN CERRAR SESIÓN
+   CERRAR SESIÓN
 ================================ */
 
 .link-logout {
@@ -111,7 +109,6 @@ button {
 .link-logout:hover {
     color: #b76572;
 }
-
 
 /* ================================
    INICIO
@@ -187,7 +184,6 @@ button {
     transform: translateY(-2px);
 }
 
-
 /* ================================
    BIENVENIDA
 ================================ */
@@ -223,7 +219,6 @@ button {
     line-height: 1.8;
 }
 
-
 /* ================================
    TÍTULOS DE PÁGINA
 ================================ */
@@ -255,7 +250,6 @@ button {
     color: #806b64;
     font-size: 16px;
 }
-
 
 /* ================================
    PRODUCTOS
@@ -329,7 +323,6 @@ button {
 .producto button:hover {
     background-color: #994f5b;
 }
-
 
 /* ================================
    CARRITO
@@ -427,7 +420,6 @@ button {
     color: #4b3832;
     font-size: 22px;
 }
-
 
 /* ================================
    ADMINISTRADOR
@@ -557,132 +549,11 @@ button {
     margin-top: 50px !important;
 }
 
-
-/* ================================
-   INICIO DE SESIÓN
-================================ */
-
-.pagina-login {
-    min-height: calc(100vh - 78px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 60px 20px;
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            #f8dfe0,
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 80% 80%,
-            #f5d9d5,
-            transparent 35%
-        ),
-        #fffaf7;
-}
-
-.login-contenedor {
-    width: 100%;
-    max-width: 430px;
-    padding: 45px;
-    background-color: white;
-    border: 1px solid #f0e2dc;
-    border-radius: 24px;
-    box-shadow: 0 15px 40px rgba(90, 60, 50, 0.10);
-    text-align: center;
-}
-
-.login-contenedor > p {
-    margin: 0 0 8px;
-    font-family: Georgia, serif;
-    font-size: 34px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #a85d68;
-}
-
-.login-contenedor h1 {
-    margin: 0 0 10px;
-    font-family: Georgia, serif;
-    font-size: 34px;
-    font-weight: normal;
-    color: #4b3832;
-}
-
-.login-contenedor > span {
-    display: block;
-    margin-bottom: 32px;
-    color: #806b64;
-    font-size: 15px;
-}
-
-.login-contenedor form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.login-contenedor input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 14px 16px;
-    border: 1px solid #e2d3cd;
-    border-radius: 10px;
-    outline: none;
-    background-color: #fffaf7;
-    color: #4b3832;
-    font-family: inherit;
-    font-size: 15px;
-    transition: 0.3s;
-}
-
-.login-contenedor input::placeholder {
-    color: #a28f87;
-}
-
-.login-contenedor input:focus {
-    border-color: #b76572;
-    background-color: white;
-    box-shadow: 0 0 0 3px rgba(183, 101, 114, 0.10);
-}
-
-.login-contenedor button {
-    width: 100%;
-    margin-top: 8px;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 30px;
-    background-color: #b76572;
-    color: white;
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.login-contenedor button:hover {
-    background-color: #994f5b;
-    transform: translateY(-2px);
-}
-
-.login-contenedor .mensaje-error {
-    margin: 0;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background-color: #fceaea;
-    color: #a33a3a;
-    font-size: 14px;
-}
-
-
 /* ================================
    RESPONSIVE
 ================================ */
 
 @media (max-width: 768px) {
-
     .navbar {
         height: auto;
         padding: 18px 25px;
@@ -764,24 +635,6 @@ button {
     .admin-panel input[type="number"],
     .admin-panel form button {
         width: 100%;
-    }
-
-    .pagina-login {
-        min-height: calc(100vh - 78px);
-        padding: 40px 20px;
-    }
-
-    .login-contenedor {
-        padding: 35px 25px;
-        border-radius: 20px;
-    }
-
-    .login-contenedor > p {
-        font-size: 30px;
-    }
-
-    .login-contenedor h1 {
-        font-size: 30px;
     }
 
     .link-logout {
