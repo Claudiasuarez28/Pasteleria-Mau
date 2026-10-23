@@ -1,6 +1,7 @@
+
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/productos";
+const API_URL = "https://maue-backend.onrender.com/api/productos";
 
 export const obtenerProductos = async () => {
     const response = await axios.get(API_URL);

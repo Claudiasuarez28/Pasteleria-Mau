@@ -63,7 +63,7 @@ function Carrito({
                                             src={
                                                 producto.imagen.startsWith("http")
                                                     ? producto.imagen
-                                                    : `http://localhost:8080/images/${producto.imagen}`
+                                                : `https://maue-backend.onrender.com/images/${producto.imagen}`
                                             }
                                             alt={producto.nombre}
                                         />

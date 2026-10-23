@@ -62,8 +62,7 @@ function Inicio() {
             return producto.imagen;
         }
 
-        return `http://localhost:8080/images/${producto.imagen}`;
-    };
+        return `https://maue-backend.onrender.com/images/${producto.imagen}`;    };
 
     return (
         <main className="inicio">
