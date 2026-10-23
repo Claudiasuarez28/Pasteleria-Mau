@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.model.Usuario;
@@ -8,7 +9,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://pasteleria-mau.vercel.app",
+    "https://pasteleria-mau-git-main-clau-c83a.vercel.app"
+})
 public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;

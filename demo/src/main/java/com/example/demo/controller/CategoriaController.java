@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.model.Categoria;
@@ -7,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://pasteleria-mau.vercel.app",
+    "https://pasteleria-mau-git-main-clau-c83a.vercel.app"
+})
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
@@ -28,7 +33,9 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public Categoria actualizarCategoria(@PathVariable String id, @RequestBody Categoria categoria) {
+    public Categoria actualizarCategoria(
+            @PathVariable String id,
+            @RequestBody Categoria categoria) {
         categoria.setId(id);
         return categoriaRepository.save(categoria);
     }

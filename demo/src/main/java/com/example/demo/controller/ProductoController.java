@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.model.Producto;
@@ -7,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "https://pasteleria-mau.vercel.app",
+    "https://pasteleria-mau-git-main-clau-c83a.vercel.app"
+})
 @RequestMapping("/api/productos")
 public class ProductoController {
 
@@ -28,7 +33,9 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable String id, @RequestBody Producto producto) {
+    public Producto actualizarProducto(
+            @PathVariable String id,
+            @RequestBody Producto producto) {
         producto.setId(id);
         return productoRepository.save(producto);
     }
