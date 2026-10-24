@@ -1,0 +1,470 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap");
+
+/* ========================================
+   DETALLE DEL PRODUCTO
+======================================== */
+
+.pagina-detalle-producto {
+    --rosa-maue: #c6867e;
+    --rosa-oscuro: #a96760;
+    --rosa-claro: #ead1cc;
+    --crema: #fbf8f3;
+    --blanco: #fffdfa;
+    --dorado: #b99766;
+    --texto: #352922;
+    --texto-suave: #796d65;
+    --linea: #e6dcd3;
+    --marron-disponible: #79604a;
+
+    width: 100%;
+    max-width: 1200px;
+    min-height: 65vh;
+    margin: 0 auto;
+    padding: 36px 40px 80px;
+    box-sizing: border-box;
+
+    color: var(--texto);
+    font-family: "DM Sans", sans-serif;
+}
+
+/* Volver al catálogo */
+
+.detalle-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 30px;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+    color: var(--rosa-oscuro);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.detalle-volver::before {
+    content: "←";
+    font-size: 19px;
+    font-weight: 400;
+}
+
+.detalle-volver:hover {
+    color: var(--dorado);
+}
+
+/* Distribución principal */
+
+.detalle-contenido {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 72px;
+
+    width: 100%;
+}
+
+/* Fotografía */
+
+.detalle-fotografia {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 440px;
+    overflow: hidden;
+
+    background: var(--crema);
+}
+
+.detalle-fotografia img {
+    display: block;
+
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+
+    transition: transform 0.5s ease;
+}
+
+.detalle-fotografia:hover img {
+    transform: scale(1.025);
+}
+
+/* Imagen alternativa */
+
+.detalle-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    min-height: 440px;
+    padding: 30px;
+    box-sizing: border-box;
+
+    background: radial-gradient(
+        circle at center,
+        var(--blanco) 0%,
+        var(--rosa-claro) 100%
+    );
+
+    text-align: center;
+}
+
+.detalle-placeholder span {
+    color: var(--rosa-oscuro);
+
+    font-family: "Newsreader", serif;
+    font-size: 48px;
+    letter-spacing: 5px;
+}
+
+.detalle-placeholder small {
+    color: var(--texto-suave);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+/* Información del producto */
+
+.detalle-informacion {
+    width: 100%;
+    max-width: 440px;
+    padding: 10px 0;
+}
+
+.detalle-etiqueta {
+    margin: 0 0 18px;
+
+    color: var(--dorado);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.detalle-informacion h1 {
+    margin: 0;
+
+    color: var(--texto);
+
+    font-family: "Newsreader", serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+}
+
+/* Precio y disponibilidad */
+
+.detalle-precio-disponibilidad {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    margin: 28px 0 24px;
+}
+
+.detalle-precio {
+    margin: 0;
+
+    color: var(--rosa-oscuro);
+    font-family: "DM Sans", sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.4;
+}
+
+/* Disponibilidad en marrón */
+
+.detalle-disponibilidad {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.detalle-disponibilidad span {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+.detalle-disponibilidad.disponible {
+    color: var(--marron-disponible);
+}
+
+.detalle-disponibilidad.disponible span {
+    background: var(--marron-disponible);
+}
+
+.detalle-disponibilidad.agotado {
+    color: var(--rosa-oscuro);
+}
+
+.detalle-disponibilidad.agotado span {
+    background: var(--rosa-oscuro);
+}
+
+/* Botón del carrito */
+
+.detalle-boton-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 54px;
+    padding: 15px 24px;
+
+    border: 1px solid var(--rosa-maue);
+    border-radius: 0;
+
+    background: var(--rosa-maue);
+    color: var(--blanco);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.detalle-boton-carrito:hover:not(:disabled) {
+    border-color: var(--rosa-oscuro);
+    background: var(--rosa-oscuro);
+}
+
+.detalle-boton-carrito:disabled {
+    border-color: var(--linea);
+    background: var(--rosa-claro);
+    color: var(--texto-suave);
+    cursor: not-allowed;
+}
+
+/* Mensajes de carga */
+
+.detalle-mensaje {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 300px;
+    margin: 0;
+
+    color: var(--texto-suave);
+    font-size: 14px;
+}
+
+/* Producto no encontrado */
+
+.detalle-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px;
+    padding: 30px;
+
+    text-align: center;
+}
+
+.detalle-error h1 {
+    margin: 0 0 14px;
+
+    color: var(--texto);
+
+    font-family: "Newsreader", serif;
+    font-size: 38px;
+    font-weight: 400;
+}
+
+.detalle-error p {
+    margin: 0 0 25px;
+
+    color: var(--texto-suave);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.detalle-error button {
+    padding: 14px 22px;
+
+    border: 1px solid var(--rosa-maue);
+    border-radius: 0;
+
+    background: var(--rosa-maue);
+    color: var(--blanco);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.detalle-error button:hover {
+    background: var(--rosa-oscuro);
+    border-color: var(--rosa-oscuro);
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 900px) {
+    .pagina-detalle-producto {
+        padding: 30px 26px 60px;
+    }
+
+    .detalle-contenido {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 36px;
+    }
+
+    .detalle-fotografia {
+        min-height: 360px;
+    }
+
+    .detalle-fotografia img {
+        height: 400px;
+    }
+
+    .detalle-placeholder {
+        min-height: 360px;
+    }
+
+    .detalle-informacion h1 {
+        font-size: 38px;
+    }
+
+    .detalle-precio {
+        font-size: 19px;
+    }
+}
+
+/* ========================================
+   CELULAR
+======================================== */
+
+@media (max-width: 600px) {
+    .pagina-detalle-producto {
+        padding: 22px 18px 45px;
+    }
+
+    .detalle-volver {
+        margin-bottom: 22px;
+        font-size: 12px;
+    }
+
+    .detalle-contenido {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 30px;
+    }
+
+    .detalle-fotografia {
+        min-height: 300px;
+    }
+
+    .detalle-fotografia img {
+        height: 330px;
+    }
+
+    .detalle-placeholder {
+        min-height: 300px;
+    }
+
+    .detalle-placeholder span {
+        font-size: 40px;
+    }
+
+    .detalle-informacion {
+        max-width: none;
+        padding: 0;
+    }
+
+    .detalle-etiqueta {
+        margin-bottom: 13px;
+        font-size: 10px;
+    }
+
+    .detalle-informacion h1 {
+        font-size: 36px;
+    }
+
+    .detalle-precio-disponibilidad {
+        gap: 12px;
+        margin: 23px 0 20px;
+    }
+
+    .detalle-precio {
+        font-size: 19px;
+    }
+
+    .detalle-disponibilidad {
+        font-size: 12px;
+    }
+
+    .detalle-boton-carrito {
+        min-height: 52px;
+    }
+
+    .detalle-error h1 {
+        font-size: 32px;
+    }
+}
+
+/* ========================================
+   CELULARES PEQUEÑOS
+======================================== */
+
+@media (max-width: 360px) {
+    .pagina-detalle-producto {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+
+    .detalle-fotografia img {
+        height: 280px;
+    }
+
+    .detalle-informacion h1 {
+        font-size: 31px;
+    }
+
+    .detalle-precio {
+        font-size: 18px;
+    }
+}
