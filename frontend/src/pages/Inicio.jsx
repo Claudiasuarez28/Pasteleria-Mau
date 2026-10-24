@@ -1,7 +1,44 @@
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import { obtenerProductos } from "../services/productoService";
 import "../styles/Inicio.css";
+
+// Imágenes locales de los tres productos destacados
+import imagenChocolateCupcake from "../assets/cupcakes/chocolate.jpg";
+import imagenChocolate from "../assets/tortas/chocolate.jpg";
+import pieLimon from "../assets/postres/pielimon.jpg";
+
+function obtenerImagenLocal(producto) {
+    const nombre = (
+        producto?.nombre ||
+        producto?.nombreProducto ||
+        producto?.nombre_producto ||
+        ""
+    )
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+
+    if (nombre.includes("cupcake") && nombre.includes("chocolate")) {
+        return imagenChocolateCupcake;
+    }
+
+    if (nombre.includes("torta") && nombre.includes("chocolate")) {
+        return imagenChocolate;
+    }
+
+    if (
+        nombre.includes("pie de limon") ||
+        nombre.includes("pie limon")
+    ) {
+        return pieLimon;
+    }
+
+    return "";
+}
 
 function Inicio() {
     const [productos, setProductos] = useState([]);
@@ -11,7 +48,13 @@ function Inicio() {
         const cargarProductos = async () => {
             try {
                 const respuesta = await obtenerProductos();
-                const lista = Array.isArray(respuesta) ? respuesta : [];
+
+                const lista = Array.isArray(respuesta)
+                    ? respuesta
+                    : Array.isArray(respuesta?.productos)
+                      ? respuesta.productos
+                      : [];
+
                 setProductos(lista.slice(0, 3));
             } catch (error) {
                 console.error("Error al cargar los productos:", error);
@@ -47,22 +90,6 @@ function Inicio() {
             maximumFractionDigits: 0,
         });
     };
-
-    // No usar imágenes de relleno en NUESTROS FAVORITOS.
-    // Si el producto tiene una imagen propia, se conserva.
-    const obtenerImagen = (producto) => {
-        if (!producto?.imagen) {
-            return null;
-        }
-
-        if (
-            producto.imagen.startsWith("http://") ||
-            producto.imagen.startsWith("https://")
-        ) {
-            return producto.imagen;
-        }
-
-        return `https://maue-backend.onrender.com/images/${producto.imagen}`;    };
 
     return (
         <main className="inicio">
@@ -145,8 +172,8 @@ function Inicio() {
                     </p>
                 ) : productos.length > 0 ? (
                     <div className="productos-grid">
-                        {productos.map((producto) => {
-                            const imagen = obtenerImagen(producto);
+                        {productos.map((producto, indice) => {
+                            const imagen = obtenerImagenLocal(producto);
 
                             return (
                                 <article
@@ -154,13 +181,16 @@ function Inicio() {
                                     key={
                                         producto.id ??
                                         producto._id ??
-                                        producto.nombre
+                                        producto.nombre ??
+                                        indice
                                     }
                                 >
                                     <Link
                                         to="/productos"
                                         className="producto-imagen"
-                                        aria-label={`Ver ${producto.nombre || "producto"}`}
+                                        aria-label={`Ver ${
+                                            producto.nombre || "producto"
+                                        }`}
                                     >
                                         {imagen && (
                                             <img
@@ -185,13 +215,18 @@ function Inicio() {
 
                                         <div className="producto-pie">
                                             <span className="producto-precio">
-                                                {formatoPrecio(producto.precio)}
+                                                {formatoPrecio(
+                                                    producto.precio
+                                                )}
                                             </span>
 
                                             <Link
                                                 to="/productos"
                                                 className="producto-agregar"
-                                                aria-label={`Ver catálogo para elegir ${producto.nombre || "un producto"}`}
+                                                aria-label={`Ver catálogo para elegir ${
+                                                    producto.nombre ||
+                                                    "un producto"
+                                                }`}
                                                 title="Ver producto"
                                             >
                                                 +
