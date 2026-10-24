@@ -1,7 +1,5 @@
-
 /* ============================================
    MAUÉ — CARRITO DE COMPRAS
-   Diseño basado en la referencia de Figma
 ============================================ */
 
 .carrito {
@@ -16,7 +14,7 @@
     width: 100%;
     max-width: 1308px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 0 72px;
     color: var(--chocolate);
     font-family: "DM Sans", Arial, sans-serif;
     background: transparent;
@@ -33,13 +31,42 @@
 }
 
 /* ============================================
+   ENCABEZADO
+============================================ */
+
+.carrito-encabezado {
+    width: 100%;
+    padding: 67px 20px 62px;
+    text-align: center;
+}
+
+.carrito-encabezado span {
+    display: block;
+    margin-bottom: 25px;
+    color: var(--terracota);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.carrito-encabezado h1 {
+    margin: 0;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+/* ============================================
    DISTRIBUCIÓN PRINCIPAL
 ============================================ */
 
 .carrito-contenido {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 393px;
-    column-gap: 74px;
+    grid-template-columns: minmax(0, 1fr) 328px;
+    column-gap: 61px;
     align-items: start;
     width: 100%;
     padding: 0;
@@ -60,12 +87,12 @@
 .item-carrito {
     position: relative;
     display: grid;
-    grid-template-columns: 163px minmax(0, 1fr) 130px;
-    column-gap: 28px;
+    grid-template-columns: 136px minmax(0, 1fr) 130px;
+    column-gap: 23px;
     align-items: start;
     width: 100%;
-    min-height: 243px;
-    padding: 28px 0 35px;
+    min-height: 202px;
+    padding: 23px 0;
     border: 0;
     border-bottom: 1px solid var(--linea);
     border-radius: 0;
@@ -73,11 +100,11 @@
     background: transparent;
 }
 
-/* Imagen */
+/* Imagen del producto */
 
 .item-carrito-imagen {
-    width: 163px;
-    height: 186px;
+    width: 136px;
+    height: 155px;
     overflow: hidden;
     background: var(--rosa-claro);
 }
@@ -87,6 +114,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .imagen-sin-producto {
@@ -112,38 +140,38 @@
 
 .item-carrito-categoria {
     display: block;
-    margin-bottom: 13px;
+    margin-bottom: 12px;
     color: var(--terracota);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
 }
 
 .item-carrito-detalles h2 {
-    margin: 0 0 19px;
+    margin: 0 0 15px;
     color: var(--chocolate);
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 27px;
+    font-size: 25px;
     font-weight: 400;
     line-height: 1.2;
 }
 
 .item-carrito-detalles p {
-    margin: 0 0 8px;
+    margin: 0 0 7px;
     color: var(--texto-suave);
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.5;
 }
 
-/* Precio total del producto */
+/* Precio total por producto */
 
 .item-carrito-subtotal {
     justify-self: end;
-    padding-top: 5px;
+    padding-top: 4px;
     color: var(--chocolate);
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     white-space: nowrap;
 }
@@ -156,16 +184,16 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 22px;
-    margin-top: 25px;
+    gap: 20px;
+    margin-top: 22px;
 }
 
 .cantidad {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
-    width: 129px;
-    height: 43px;
+    width: 107px;
+    height: 36px;
     border: 1px solid #e3d5ce;
     border-radius: 0;
     background: #fffaf7;
@@ -178,11 +206,12 @@
     border: 0;
     background: transparent;
     color: var(--chocolate);
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.cantidad button:hover {
+.cantidad button:hover:not(:disabled) {
     background: var(--rosa);
 }
 
@@ -193,7 +222,7 @@
 
 .cantidad span {
     color: var(--chocolate);
-    font-size: 12px;
+    font-size: 11px;
     text-align: center;
 }
 
@@ -204,6 +233,7 @@
     color: var(--texto-suave);
     font-size: 10px;
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 .boton-eliminar:hover {
@@ -217,15 +247,16 @@
 .seguir-comprando {
     display: inline-flex;
     align-items: center;
-    margin-top: 32px;
+    margin-top: 27px;
     padding-bottom: 7px;
     border-bottom: 1px solid var(--chocolate);
     color: var(--chocolate);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
-    letter-spacing: 1.8px;
+    letter-spacing: 1.5px;
     text-decoration: none;
     text-transform: uppercase;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .seguir-comprando:hover {
@@ -238,9 +269,10 @@
 ============================================ */
 
 .resumen-pedido {
+    position: relative;
     width: 100%;
-    min-height: 384px;
-    padding: 36px;
+    min-height: 321px;
+    padding: 30px;
     border: 1px solid #e8d6cf;
     border-radius: 0;
     background: linear-gradient(
@@ -248,13 +280,13 @@
         #f7ece8 0%,
         #f3e6e1 100%
     );
-    box-shadow: 0 20px 50px rgba(51, 37, 31, 0.08);
+    box-shadow: 0 20px 50px rgba(51, 37, 31, 0.06);
 }
 
 .resumen-pedido h2 {
-    margin: 0 0 32px;
+    margin: 0 0 27px;
     color: var(--terracota);
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 600;
     letter-spacing: 2px;
     line-height: 1.5;
@@ -266,7 +298,7 @@
     align-items: baseline;
     gap: 12px;
     color: var(--chocolate);
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .resumen-linea span,
@@ -279,11 +311,11 @@
 }
 
 .resumen-entrega {
-    margin: 22px 0 20px;
-    padding-bottom: 20px;
+    margin: 19px 0 17px;
+    padding-bottom: 17px;
     border-bottom: 1px solid #ddcbc3;
     color: var(--texto-suave);
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1.6;
 }
 
@@ -291,11 +323,11 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 12px;
-    margin: 28px 0 30px;
+    gap: 10px;
+    margin: 23px 0 25px;
     color: var(--chocolate);
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 25px;
+    font-size: 21px;
 }
 
 .resumen-total span,
@@ -307,22 +339,24 @@
     white-space: nowrap;
 }
 
-/* Botón de pago */
+/* Botón para continuar */
 
 .boton-continuar-pago {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    gap: 10px;
     width: 100%;
-    min-height: 61px;
-    padding: 0 12px;
+    min-height: 50px;
+    padding: 0 22px;
     border: 0;
     border-radius: 0;
     background: var(--chocolate);
     color: #ffffff;
-    font-size: 11px;
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: 9px;
     font-weight: 600;
-    letter-spacing: 1.8px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -332,10 +366,15 @@
     background: #594137;
 }
 
+.flecha-pago {
+    font-size: 19px;
+    font-weight: 400;
+}
+
 .resumen-nota {
-    margin: 18px 0 0;
+    margin: 15px 0 0;
     color: var(--texto-suave);
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1.5;
     text-align: center;
 }
@@ -349,7 +388,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 390px;
+    min-height: 330px;
     padding: 45px 20px;
     text-align: center;
 }
@@ -398,6 +437,11 @@
     font-size: 10px;
     letter-spacing: 1.5px;
     text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.boton-ver-productos:hover {
+    background: #594137;
 }
 
 /* ============================================
@@ -405,61 +449,29 @@
 ============================================ */
 
 @media (max-width: 1024px) {
+    .carrito {
+        padding-right: 24px;
+        padding-left: 24px;
+    }
+
     .carrito-contenido {
-        grid-template-columns: minmax(0, 1fr) 330px;
-        gap: 30px;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        column-gap: 30px;
     }
 
     .item-carrito {
-        grid-template-columns: 125px minmax(0, 1fr) 105px;
-        gap: 18px;
-    }
-
-    .item-carrito-imagen {
-        width: 125px;
-        height: 150px;
-    }
-
-    .item-carrito-detalles h2 {
-        font-size: 23px;
-    }
-
-    .item-carrito-subtotal {
-        font-size: 19px;
-    }
-
-    .resumen-pedido {
-        padding: 26px;
-    }
-}
-
-/* ============================================
-   MÓVIL
-============================================ */
-
-@media (max-width: 700px) {
-    .carrito-contenido {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 35px;
-    }
-
-    .item-carrito {
-        grid-template-columns: 105px minmax(0, 1fr);
+        grid-template-columns: 112px minmax(0, 1fr);
         gap: 16px;
-        padding: 24px 0;
+        padding: 22px 0;
     }
 
     .item-carrito-imagen {
-        width: 105px;
-        height: 125px;
-    }
-
-    .item-carrito-detalles {
-        padding-top: 3px;
+        width: 112px;
+        height: 135px;
     }
 
     .item-carrito-detalles h2 {
-        font-size: 21px;
+        font-size: 22px;
     }
 
     .item-carrito-subtotal {
@@ -471,16 +483,103 @@
 
     .item-carrito-acciones {
         align-items: flex-start;
-        margin-top: 5px;
+        margin-top: 14px;
+    }
+
+    .resumen-pedido {
+        padding: 24px;
+    }
+
+    .resumen-total {
+        font-size: 19px;
+    }
+}
+
+/* ============================================
+   MÓVIL
+============================================ */
+
+@media (max-width: 700px) {
+    .carrito {
+        padding: 0 18px 45px;
+    }
+
+    .carrito-encabezado {
+        padding: 45px 0 38px;
+    }
+
+    .carrito-encabezado span {
+        margin-bottom: 18px;
+        font-size: 9px;
+    }
+
+    .carrito-encabezado h1 {
+        font-size: 36px;
+    }
+
+    .carrito-contenido {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 35px;
+    }
+
+    .item-carrito {
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 14px;
+        padding: 22px 0;
+    }
+
+    .item-carrito-imagen {
+        width: 100px;
+        height: 120px;
+    }
+
+    .item-carrito-detalles {
+        padding-top: 3px;
+    }
+
+    .item-carrito-categoria {
+        margin-bottom: 9px;
+        font-size: 8px;
+    }
+
+    .item-carrito-detalles h2 {
+        margin-bottom: 12px;
+        font-size: 21px;
+    }
+
+    .item-carrito-detalles p {
+        font-size: 10px;
+    }
+
+    .item-carrito-subtotal {
+        grid-column: 2;
+        justify-self: start;
+        padding-top: 0;
+        font-size: 19px;
+    }
+
+    .item-carrito-acciones {
+        align-items: flex-start;
+        gap: 14px;
+        margin-top: 14px;
     }
 
     .resumen-pedido {
         min-height: auto;
-        padding: 28px 22px;
+        padding: 27px 22px;
+    }
+
+    .resumen-pedido h2 {
+        margin-bottom: 24px;
     }
 
     .resumen-total {
         font-size: 21px;
+    }
+
+    .boton-continuar-pago {
+        min-height: 52px;
+        padding: 0 16px;
     }
 }
 
@@ -489,14 +588,23 @@
 ============================================ */
 
 @media (max-width: 380px) {
+    .carrito {
+        padding-right: 13px;
+        padding-left: 13px;
+    }
+
+    .carrito-encabezado h1 {
+        font-size: 31px;
+    }
+
     .item-carrito {
-        grid-template-columns: 85px minmax(0, 1fr);
-        gap: 12px;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 11px;
     }
 
     .item-carrito-imagen {
-        width: 85px;
-        height: 105px;
+        width: 82px;
+        height: 100px;
     }
 
     .item-carrito-detalles h2 {
@@ -504,7 +612,11 @@
     }
 
     .resumen-pedido {
-        padding: 22px 17px;
+        padding: 22px 16px;
+    }
+
+    .resumen-total {
+        font-size: 19px;
     }
 }
 

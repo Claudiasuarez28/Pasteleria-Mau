@@ -1,23 +1,49 @@
-
 import { Link } from "react-router-dom";
 import "../styles/Carrito.css";
 
 function Carrito({
     carrito,
     cambiarCantidad,
-    eliminarDelCarrito
+    eliminarDelCarrito,
 }) {
     const total = carrito.reduce(
         (suma, producto) =>
-            suma + producto.precio * producto.cantidad,
+            suma +
+            Number(producto.precio || 0) *
+                Number(producto.cantidad || 0),
         0
     );
 
     const formatoPrecio = (precio) =>
-        `COP $${precio.toLocaleString("es-CO")}`;
+        `COP $${Number(precio || 0).toLocaleString("es-CO")}`;
+
+    const obtenerImagen = (producto) => {
+        const imagen = producto?.imagen;
+
+        if (!imagen || typeof imagen !== "string") {
+            return "";
+        }
+
+        if (
+            imagen.startsWith("data:") ||
+            imagen.startsWith("blob:") ||
+            imagen.startsWith("http://") ||
+            imagen.startsWith("https://") ||
+            imagen.startsWith("/")
+        ) {
+            return imagen;
+        }
+
+        return `https://maue-backend.onrender.com/images/${imagen}`;
+    };
 
     return (
         <section className="carrito">
+            <header className="carrito-encabezado">
+                <span>TU SELECCIÓN</span>
+                <h1>Carrito de compras</h1>
+            </header>
+
             {carrito.length === 0 ? (
                 <div className="carrito-vacio">
                     <div className="carrito-vacio-icono">
@@ -52,106 +78,151 @@ function Carrito({
             ) : (
                 <div className="carrito-contenido">
                     <div className="carrito-lista">
-                        {carrito.map((producto) => (
-                            <article
-                                className="item-carrito"
-                                key={producto.id}
-                            >
-                                <div className="item-carrito-imagen">
-                                    {producto.imagen ? (
-                                        <img
-                                            src={
-                                                producto.imagen.startsWith("http")
-                                                    ? producto.imagen
-                                                : `https://maue-backend.onrender.com/images/${producto.imagen}`
-                                            }
-                                            alt={producto.nombre}
-                                        />
-                                    ) : (
-                                        <div className="imagen-sin-producto">
+                        {carrito.map((producto) => {
+                            const imagen = obtenerImagen(producto);
+                            const idProducto = producto.id ?? producto._id;
+
+                            return (
+                                <article
+                                    className="item-carrito"
+                                    key={idProducto}
+                                >
+                                    <div className="item-carrito-imagen">
+                                        {imagen && (
+                                            <img
+                                                src={imagen}
+                                                alt={
+                                                    producto.nombre ||
+                                                    "Producto de MAUÉ"
+                                                }
+                                                onError={(evento) => {
+                                                    evento.currentTarget.style.display =
+                                                        "none";
+
+                                                    const respaldo =
+                                                        evento.currentTarget
+                                                            .nextElementSibling;
+
+                                                    if (respaldo) {
+                                                        respaldo.style.display =
+                                                            "flex";
+                                                    }
+                                                }}
+                                            />
+                                        )}
+
+                                        <div
+                                            className="imagen-sin-producto"
+                                            style={{
+                                                display: imagen
+                                                    ? "none"
+                                                    : "flex",
+                                            }}
+                                        >
                                             MAUÉ
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
 
-                                <div className="item-carrito-detalles">
-                                    <span className="item-carrito-categoria">
-                                        Especiales
-                                    </span>
+                                    <div className="item-carrito-detalles">
+                                        <span className="item-carrito-categoria">
+                                            {typeof producto.categoria ===
+                                            "object"
+                                                ? producto.categoria?.nombre ||
+                                                  "Especiales"
+                                                : producto.categoria ||
+                                                  producto.nombreCategoria ||
+                                                  "Especiales"}
+                                        </span>
 
-                                    <h2>{producto.nombre}</h2>
+                                        <h2>{producto.nombre}</h2>
 
-                                    {producto.relleno1 && (
+                                        {producto.relleno1 && (
+                                            <p>
+                                                Relleno 1:{" "}
+                                                {producto.relleno1}
+                                            </p>
+                                        )}
+
+                                        {producto.relleno2 && (
+                                            <p>
+                                                Relleno 2:{" "}
+                                                {producto.relleno2}
+                                            </p>
+                                        )}
+
                                         <p>
-                                            Relleno 1: {producto.relleno1}
+                                            Precio individual:{" "}
+                                            {formatoPrecio(producto.precio)}
                                         </p>
-                                    )}
 
-                                    {producto.relleno2 && (
-                                        <p>
-                                            Relleno 2: {producto.relleno2}
-                                        </p>
-                                    )}
+                                        <div className="item-carrito-acciones">
+                                            <div
+                                                className="cantidad"
+                                                aria-label="Cambiar cantidad"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        cambiarCantidad(
+                                                            idProducto,
+                                                            Number(
+                                                                producto.cantidad
+                                                            ) - 1
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        Number(
+                                                            producto.cantidad
+                                                        ) <= 1
+                                                    }
+                                                    aria-label="Disminuir cantidad"
+                                                >
+                                                    −
+                                                </button>
 
-                                    <p>
-                                        Precio individual:{" "}
-                                        {formatoPrecio(producto.precio)}
-                                    </p>
+                                                <span>
+                                                    {producto.cantidad}
+                                                </span>
 
-                                    <div className="item-carrito-acciones">
-                                        <div
-                                            className="cantidad"
-                                            aria-label="Cambiar cantidad"
-                                        >
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        cambiarCantidad(
+                                                            idProducto,
+                                                            Number(
+                                                                producto.cantidad
+                                                            ) + 1
+                                                        )
+                                                    }
+                                                    aria-label="Aumentar cantidad"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+
                                             <button
                                                 type="button"
+                                                className="boton-eliminar"
                                                 onClick={() =>
-                                                    cambiarCantidad(
-                                                        producto.id,
-                                                        producto.cantidad - 1
+                                                    eliminarDelCarrito(
+                                                        idProducto
                                                     )
                                                 }
-                                                disabled={producto.cantidad <= 1}
-                                                aria-label="Disminuir cantidad"
                                             >
-                                                −
-                                            </button>
-
-                                            <span>{producto.cantidad}</span>
-
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    cambiarCantidad(
-                                                        producto.id,
-                                                        producto.cantidad + 1
-                                                    )
-                                                }
-                                                aria-label="Aumentar cantidad"
-                                            >
-                                                +
+                                                Eliminar
                                             </button>
                                         </div>
-
-                                        <button
-                                            type="button"
-                                            className="boton-eliminar"
-                                            onClick={() =>
-                                                eliminarDelCarrito(producto.id)
-                                            }
-                                        >
-                                            Eliminar
-                                        </button>
                                     </div>
-                                </div>
 
-                                <strong className="item-carrito-subtotal">
-                                    {formatoPrecio(
-                                        producto.precio * producto.cantidad
-                                    )}
-                                </strong>
-                            </article>
-                        ))}
+                                    <strong className="item-carrito-subtotal">
+                                        {formatoPrecio(
+                                            Number(producto.precio || 0) *
+                                                Number(producto.cantidad || 0)
+                                        )}
+                                    </strong>
+                                </article>
+                            );
+                        })}
 
                         <Link
                             to="/productos"
@@ -188,7 +259,10 @@ function Carrito({
                                 );
                             }}
                         >
-                            Continuar al pago
+                            <span>Continuar al pago</span>
+                            <span className="flecha-pago" aria-hidden="true">
+                                →
+                            </span>
                         </button>
 
                         <p className="resumen-nota">
