@@ -30,7 +30,7 @@ import imagenChocolateCupcake from "../assets/cupcakes/chocolate.jpg";
 // Imágenes de galletas
 import imagenChocoChips from "../assets/galletas/chocochips.jpg";
 import imagenAvena from "../assets/galletas/avena.jpg";
-import imagenRedVelvetGalleta from "../assets/galletas/gredvelvet.jpg";
+import imagenRedVelvetGalleta from "../assets/galletas/Gredvelvet.jpg";
 import imagenDobleChocolate from "../assets/galletas/doblechocolate.jpg";
 import imagenMantequilla from "../assets/galletas/mantequilla.jpg";
 
