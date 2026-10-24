@@ -30,7 +30,7 @@ import imagenChocolateCupcake from "../assets/cupcakes/chocolate.jpg";
 // Imágenes de galletas
 import imagenChocoChips from "../assets/galletas/chocochips.jpg";
 import imagenAvena from "../assets/galletas/avena.jpg";
-import imagenRedVelvetGalleta from "../assets/galletas/redvelvet.jpg";
+import imagenRedVelvetGalleta from "../assets/galletas/gredvelvet.jpg";
 import imagenDobleChocolate from "../assets/galletas/doblechocolate.jpg";
 import imagenMantequilla from "../assets/galletas/mantequilla.jpg";
 
@@ -76,6 +76,10 @@ const imagenesProductos = {
     "chocochips": imagenChocoChips,
     "avena dorada": imagenAvena,
     "red velvet cookies": imagenRedVelvetGalleta,
+    "red velvet galleta": imagenRedVelvetGalleta,
+    "galleta red velvet": imagenRedVelvetGalleta,
+    "galletas red velvet": imagenRedVelvetGalleta,
+    "gredvelvet": imagenRedVelvetGalleta,
     "doble tentacion": imagenDobleChocolate,
     "doble chocolate": imagenDobleChocolate,
     "besos de mantequilla": imagenMantequilla,
@@ -113,6 +117,27 @@ function normalizar(texto) {
         .trim();
 }
 
+// Obtiene el nombre de la categoría de un producto
+function obtenerNombreCategoria(producto) {
+    const categoria = producto?.categoria;
+
+    if (typeof categoria === "object" && categoria !== null) {
+        return (
+            categoria.nombre ||
+            categoria.nombreCategoria ||
+            categoria.nombre_categoria ||
+            ""
+        );
+    }
+
+    return (
+        categoria ||
+        producto?.nombreCategoria ||
+        producto?.nombre_categoria ||
+        ""
+    );
+}
+
 // Obtiene la imagen local correspondiente a cada producto
 function obtenerImagenProducto(producto) {
     const nombre = normalizar(
@@ -121,24 +146,59 @@ function obtenerImagenProducto(producto) {
         producto?.nombre_producto
     );
 
-    // Primero busca coincidencias exactas
+    const categoria = normalizar(obtenerNombreCategoria(producto));
+
+    // Primero identifica la galleta Red Velvet.
+    // Así evita que tome por coincidencia la imagen de la torta.
+    const esGalletaRedVelvet =
+        (categoria.includes("galleta") ||
+            nombre.includes("galleta") ||
+            nombre.includes("cookies")) &&
+        (nombre.includes("red velvet") ||
+            nombre.includes("redvelvet") ||
+            nombre.includes("gredvelvet"));
+
+    if (esGalletaRedVelvet) {
+        return imagenRedVelvetGalleta;
+    }
+
+    // Identifica la torta Red Velvet por su categoría o nombre.
+    const esTortaRedVelvet =
+        nombre.includes("red velvet") &&
+        (categoria.includes("torta") ||
+            nombre.includes("torta"));
+
+    if (esTortaRedVelvet) {
+        return imagenRedVelvetTorta;
+    }
+
+    // Busca coincidencias exactas.
     if (imagenesProductos[nombre]) {
         return imagenesProductos[nombre];
     }
 
-    // Después busca coincidencias parciales
-    const coincidencia = Object.keys(imagenesProductos).find(
-        (nombreImagen) =>
-            nombreImagen.length > 3 &&
-            (nombre.includes(nombreImagen) ||
-                nombreImagen.includes(nombre))
-    );
+    // Busca coincidencias parciales.
+    // Excluye Red Velvet para evitar asociar imágenes equivocadas.
+    if (nombre) {
+        const coincidencias = Object.keys(imagenesProductos).filter(
+            (nombreImagen) =>
+                nombreImagen.length > 3 &&
+                (nombre.includes(nombreImagen) ||
+                    nombreImagen.includes(nombre))
+        );
 
-    if (coincidencia) {
-        return imagenesProductos[coincidencia];
+        const coincidencia = coincidencias.find(
+            (nombreImagen) =>
+                !nombreImagen.includes("red velvet") &&
+                !nombreImagen.includes("gredvelvet")
+        );
+
+        if (coincidencia) {
+            return imagenesProductos[coincidencia];
+        }
     }
 
-    // Si no hay imagen local, conserva la imagen del backend
+    // Si no encuentra una imagen local, conserva la del backend.
     return (
         producto?.imagen ||
         producto?.imagenUrl ||
@@ -191,12 +251,13 @@ function Productos({ agregarAlCarrito }) {
     const nombreCategoria = (categoria) =>
         typeof categoria === "string"
             ? categoria
-            : categoria?.nombre || categoria?.nombreCategoria || "";
+            : categoria?.nombre ||
+              categoria?.nombreCategoria ||
+              categoria?.nombre_categoria ||
+              "";
 
     const nombreCategoriaProducto = (producto) =>
-        typeof producto?.categoria === "object"
-            ? nombreCategoria(producto.categoria)
-            : producto?.categoria || producto?.nombreCategoria || "";
+        obtenerNombreCategoria(producto);
 
     const categoriasActivas = categorias.filter(
         (categoria) =>
@@ -208,10 +269,10 @@ function Productos({ agregarAlCarrito }) {
         categoriaActiva === "Todos"
             ? productos
             : productos.filter(
-                (producto) =>
-                    normalizar(nombreCategoriaProducto(producto)) ===
-                    normalizar(categoriaActiva)
-            );
+                  (producto) =>
+                      normalizar(nombreCategoriaProducto(producto)) ===
+                      normalizar(categoriaActiva)
+              );
 
     const productosConImagen = productosFiltrados.map((producto) => ({
         ...producto,
