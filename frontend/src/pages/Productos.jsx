@@ -1,32 +1,42 @@
 
 import { useEffect, useState } from "react";
 import { obtenerProductos } from "../services/productoService";
+import { obtenerCategorias } from "../services/categoriaService";
 import ProductoCard from "../components/ProductoCard";
 import "../styles/Productos.css";
 
 function Productos({ agregarAlCarrito }) {
     const [productos, setProductos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
     const [categoriaActiva, setCategoriaActiva] = useState("Todos");
-
-    const categorias = [
-        "Todos",
-        "Tortas",
-        "Cupcakes",
-        "Postres",
-        "Galletas",
-        "Especiales"
-    ];
+    const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
-        cargarProductos();
+        cargarCatalogo();
     }, []);
 
-    const cargarProductos = async () => {
+    const cargarCatalogo = async () => {
+        setCargando(true);
+
         try {
-            const data = await obtenerProductos();
-            setProductos(data);
+            const [datosProductos, datosCategorias] = await Promise.all([
+                obtenerProductos(),
+                obtenerCategorias(),
+            ]);
+
+            setProductos(Array.isArray(datosProductos) ? datosProductos : []);
+
+            const listaCategorias = Array.isArray(datosCategorias)
+                ? datosCategorias
+                : Array.isArray(datosCategorias?.categorias)
+                    ? datosCategorias.categorias
+                    : [];
+
+            setCategorias(listaCategorias);
         } catch (error) {
-            console.error("Error al obtener los productos:", error);
+            console.error("Error al cargar el catálogo:", error);
+        } finally {
+            setCargando(false);
         }
     };
 
@@ -38,18 +48,33 @@ function Productos({ agregarAlCarrito }) {
             .toLowerCase()
             .trim();
 
+    const nombreCategoria = (categoria) =>
+        typeof categoria === "string"
+            ? categoria
+            : categoria?.nombre || categoria?.nombreCategoria || "";
+
+    const nombreCategoriaProducto = (producto) =>
+        typeof producto?.categoria === "object"
+            ? nombreCategoria(producto.categoria)
+            : producto?.categoria || producto?.nombreCategoria || "";
+
+    const categoriasActivas = categorias.filter(
+        (categoria) =>
+            nombreCategoria(categoria).trim() &&
+            categoria?.activo !== false
+    );
+
     const productosFiltrados =
         categoriaActiva === "Todos"
             ? productos
             : productos.filter(
                 (producto) =>
-                    normalizar(producto.categoria) ===
+                    normalizar(nombreCategoriaProducto(producto)) ===
                     normalizar(categoriaActiva)
             );
 
     return (
         <main className="pagina-productos">
-
             <section className="encabezado-productos">
                 <p className="etiqueta-productos">
                     NUESTRA COLECCIÓN
@@ -66,27 +91,44 @@ function Productos({ agregarAlCarrito }) {
             </section>
 
             <section className="catalogo-productos">
-
                 <nav className="filtros-productos">
-                    {categorias.map((categoria) => (
-                        <button
-                            key={categoria}
-                            type="button"
-                            className={
-                                categoriaActiva === categoria
-                                    ? "filtro-producto activo"
-                                    : "filtro-producto"
-                            }
-                            onClick={() =>
-                                setCategoriaActiva(categoria)
-                            }
-                        >
-                            {categoria}
-                        </button>
-                    ))}
+                    <button
+                        type="button"
+                        className={
+                            categoriaActiva === "Todos"
+                                ? "filtro-producto activo"
+                                : "filtro-producto"
+                        }
+                        onClick={() => setCategoriaActiva("Todos")}
+                    >
+                        Todos
+                    </button>
+
+                    {categoriasActivas.map((categoria) => {
+                        const nombre = nombreCategoria(categoria);
+
+                        return (
+                            <button
+                                key={categoria.id ?? nombre}
+                                type="button"
+                                className={
+                                    normalizar(categoriaActiva) === normalizar(nombre)
+                                        ? "filtro-producto activo"
+                                        : "filtro-producto"
+                                }
+                                onClick={() => setCategoriaActiva(nombre)}
+                            >
+                                {nombre}
+                            </button>
+                        );
+                    })}
                 </nav>
 
-                {productosFiltrados.length > 0 ? (
+                {cargando ? (
+                    <div className="productos-sin-resultados">
+                        <p>Cargando nuestras creaciones...</p>
+                    </div>
+                ) : productosFiltrados.length > 0 ? (
                     <div className="rejilla-productos">
                         {productosFiltrados.map((producto) => (
                             <ProductoCard
@@ -98,14 +140,17 @@ function Productos({ agregarAlCarrito }) {
                     </div>
                 ) : (
                     <div className="productos-sin-resultados">
-                        <h2>Próximamente algo delicioso</h2>
+                        <h2>
+                            {categoriaActiva === "Todos"
+                                ? "Próximamente algo delicioso"
+                                : "Próximamente algo delicioso"}
+                        </h2>
                         <p>
                             Estamos preparando nuevas creaciones
                             para esta categoría.
                         </p>
                     </div>
                 )}
-
             </section>
         </main>
     );

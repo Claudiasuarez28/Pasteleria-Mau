@@ -1,0 +1,1188 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap");
+
+/* ========================================
+   VARIABLES Y CONFIGURACIÓN GENERAL
+======================================== */
+
+.pagina-admin {
+    --admin-rosa: #a96760;
+    --admin-rosa-oscuro: #8e514b;
+    --admin-rosa-claro: #f5e8e5;
+    --admin-crema: #fbf8f3;
+    --admin-blanco: #fffdfb;
+    --admin-cafe: #352922;
+    --admin-texto: #66554d;
+    --admin-suave: #8b7771;
+    --admin-borde: #e9dfd6;
+    --admin-verde: #526b4e;
+    --admin-rojo: #a74747;
+
+    min-height: 100vh;
+    padding: 0 5% 85px;
+    background: var(--admin-crema);
+    color: var(--admin-cafe);
+    font-family: "DM Sans", sans-serif;
+}
+
+.pagina-admin *,
+.pagina-admin *::before,
+.pagina-admin *::after {
+    box-sizing: border-box;
+}
+
+.pagina-admin button,
+.pagina-admin input,
+.pagina-admin select {
+    font: inherit;
+}
+
+/* ========================================
+   BARRA DE NAVEGACIÓN ADMINISTRATIVA
+======================================== */
+
+.pagina-admin .admin-barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    width: calc(100% + 10%);
+    margin-left: -5%;
+    padding: 22px 5%;
+    border-bottom: 1px solid var(--admin-borde);
+    background: var(--admin-blanco);
+}
+
+.pagina-admin .admin-logo {
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-decoration: none;
+}
+
+.pagina-admin .admin-etiqueta {
+    color: var(--admin-rosa);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.pagina-admin .admin-navegacion {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.pagina-admin .admin-enlace {
+    padding: 8px 0;
+    border-bottom: 1px solid transparent;
+    color: var(--admin-texto);
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.pagina-admin .admin-enlace:hover,
+.pagina-admin .admin-enlace.activo {
+    border-bottom-color: var(--admin-rosa);
+    color: var(--admin-rosa-oscuro);
+}
+
+.pagina-admin .admin-cerrar-sesion {
+    padding: 10px 15px;
+    border: 1px solid var(--admin-borde);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--admin-cafe);
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagina-admin .admin-cerrar-sesion:hover {
+    border-color: var(--admin-rosa);
+    color: var(--admin-rosa-oscuro);
+}
+
+/* ========================================
+   CONTENEDOR Y BIENVENIDA
+======================================== */
+
+.pagina-admin .admin-contenido {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+}
+
+.pagina-admin .admin-bienvenida {
+    padding: 55px 0 38px;
+}
+
+.pagina-admin .admin-subtitulo {
+    margin: 0 0 14px;
+    color: var(--admin-rosa);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.pagina-admin .admin-bienvenida h1 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(40px, 5vw, 62px);
+    font-weight: 500;
+    line-height: 1.08;
+}
+
+.pagina-admin .admin-descripcion {
+    max-width: 620px;
+    margin: 18px 0 0;
+    color: var(--admin-texto);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+/* Volver al panel */
+
+.pagina-admin .admin-volver {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 22px;
+    color: var(--admin-rosa-oscuro);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.pagina-admin .admin-volver:hover {
+    color: var(--admin-cafe);
+}
+
+/* ========================================
+   BANNER PRINCIPAL
+   Fondo claro con tonos rosados
+======================================== */
+
+.pagina-admin .admin-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 350px;
+    overflow: hidden;
+    background: #f5e8e5;
+}
+
+.pagina-admin .admin-banner > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+}
+
+/* Degradado rosado claro */
+
+.pagina-admin .admin-banner::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(245, 232, 229, 0.96) 0%,
+        rgba(245, 232, 229, 0.87) 38%,
+        rgba(245, 232, 229, 0.57) 65%,
+        rgba(245, 232, 229, 0.08) 100%
+    );
+    content: "";
+}
+
+.pagina-admin .admin-banner-contenido {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+    padding: 45px;
+    color: var(--admin-cafe);
+}
+
+.pagina-admin .admin-banner-contenido > p {
+    margin: 0 0 14px;
+    color: var(--admin-rosa-oscuro);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.pagina-admin .admin-banner-contenido h2 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(34px, 4vw, 49px);
+    font-weight: 500;
+    line-height: 1.12;
+}
+
+.pagina-admin .admin-banner-contenido > span {
+    display: block;
+    margin-top: 14px;
+    color: #66554d;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.pagina-admin .admin-boton-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    margin-top: 25px;
+    padding: 0 20px;
+    border: 1px solid var(--admin-rosa);
+    background: var(--admin-rosa);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.pagina-admin .admin-boton-banner:hover {
+    background: transparent;
+    color: var(--admin-rosa-oscuro);
+}
+
+/* ========================================
+   TARJETAS DE ACCESO RÁPIDO
+======================================== */
+
+.pagina-admin .admin-accesos {
+    padding: 55px 0 25px;
+}
+
+.pagina-admin .admin-accesos-encabezado {
+    margin-bottom: 25px;
+}
+
+.pagina-admin .admin-accesos-encabezado h2 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(31px, 4vw, 42px);
+    font-weight: 500;
+}
+
+.pagina-admin .admin-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.pagina-admin .admin-tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 225px;
+    padding: 30px;
+    border: 1px solid var(--admin-borde);
+    background: var(--admin-blanco);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.pagina-admin .admin-tarjeta:hover {
+    transform: translateY(-3px);
+    border-color: #d8b9b1;
+    box-shadow: 0 12px 28px rgba(68, 45, 36, 0.06);
+}
+
+.pagina-admin .admin-tarjeta-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    margin-bottom: 20px;
+    border: 1px solid #e7d4ce;
+    background: var(--admin-rosa-claro);
+    color: var(--admin-rosa-oscuro);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 22px;
+}
+
+.pagina-admin .admin-tarjeta h3 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 29px;
+    font-weight: 600;
+}
+
+.pagina-admin .admin-tarjeta p {
+    margin: 10px 0 20px;
+    color: var(--admin-suave);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.pagina-admin .admin-tarjeta-enlace {
+    margin-top: auto;
+    color: var(--admin-rosa-oscuro);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* ========================================
+   ENCABEZADO GENERAL DEL CRUD
+======================================== */
+
+.pagina-admin .titulo-pagina {
+    width: min(1200px, 100%);
+    margin: 0 auto 42px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--admin-borde);
+    text-align: center;
+}
+
+.pagina-admin .titulo-pagina > p {
+    margin: 0 0 12px;
+    color: var(--admin-rosa);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.pagina-admin .titulo-pagina h1 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.pagina-admin .titulo-pagina span {
+    display: block;
+    margin-top: 13px;
+    color: var(--admin-suave);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* ========================================
+   PANEL PRINCIPAL DEL CRUD
+======================================== */
+
+.pagina-admin .admin-panel {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 35px;
+    border: 1px solid var(--admin-borde);
+    background: var(--admin-blanco);
+    box-shadow: 0 15px 45px rgba(68, 45, 36, 0.045);
+}
+
+.pagina-admin .admin-panel > h2 {
+    margin: 0 0 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--admin-borde);
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.pagina-admin .admin-panel > h3 {
+    margin: 35px 0 20px;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 29px;
+    font-weight: 500;
+}
+
+.pagina-admin .admin-panel > h3:first-of-type {
+    margin-top: 0;
+}
+
+.pagina-admin .admin-panel > .titulo-productos-admin {
+    margin-top: 48px;
+    padding-top: 35px;
+    border-top: 1px solid var(--admin-borde);
+}
+
+/* ========================================
+   FORMULARIOS GENERALES DEL CRUD
+======================================== */
+
+.pagina-admin .admin-panel > form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+    margin: 0 0 28px;
+    padding: 25px;
+    border: 1px solid var(--admin-borde);
+    background: #fdfaf7;
+}
+
+.pagina-admin .admin-panel > form > input:not([type="checkbox"]) {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid #e4d7d0;
+    border-radius: 2px;
+    outline: none;
+    background: var(--admin-blanco);
+    color: var(--admin-cafe);
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagina-admin .admin-panel > form > input:not([type="checkbox"])::placeholder {
+    color: #a9958d;
+}
+
+.pagina-admin .admin-panel > form > input:not([type="checkbox"]):focus {
+    border-color: var(--admin-rosa);
+    box-shadow: 0 0 0 3px rgba(169, 103, 96, 0.1);
+}
+
+.pagina-admin .admin-panel > form > button[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--admin-rosa);
+    border-radius: 2px;
+    background: var(--admin-rosa);
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.pagina-admin .admin-panel > form > button[type="submit"]:hover {
+    transform: translateY(-1px);
+    border-color: var(--admin-rosa-oscuro);
+    background: var(--admin-rosa-oscuro);
+}
+
+/* Disponibilidad general */
+
+.pagina-admin .admin-panel .disponibilidad {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 45px;
+    padding: 8px 0;
+    color: var(--admin-texto);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.pagina-admin .admin-panel .disponibilidad input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--admin-rosa);
+    cursor: pointer;
+}
+
+/* ========================================
+   GESTIÓN DE PRODUCTOS
+======================================== */
+
+.pagina-admin .admin-panel-productos {
+    margin-top: 40px;
+}
+
+/* Encabezado de gestión */
+
+.pagina-admin .admin-productos-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--admin-borde);
+}
+
+.pagina-admin .admin-productos-encabezado > div {
+    flex: 1;
+    min-width: 220px;
+}
+
+.pagina-admin .admin-productos-encabezado .admin-subtitulo {
+    margin-bottom: 10px;
+}
+
+.pagina-admin .admin-productos-encabezado h2 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(30px, 4vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.pagina-admin .admin-productos-encabezado p:not(.admin-subtitulo) {
+    margin: 10px 0 0;
+    color: var(--admin-suave);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* Contador de productos */
+
+.pagina-admin .admin-conteo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 9px 15px;
+    border: 1px solid #e7d4ce;
+    background: var(--admin-rosa-claro);
+    color: var(--admin-rosa-oscuro);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Formulario de productos */
+
+.pagina-admin .admin-formulario-producto {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0 0 38px;
+    padding: 26px;
+    border: 1px solid var(--admin-borde);
+    background: #fdfaf7;
+}
+
+.pagina-admin .admin-formulario-producto h3 {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--admin-borde);
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.pagina-admin .admin-formulario-producto label {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    color: var(--admin-texto);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pagina-admin .admin-formulario-producto input,
+.pagina-admin .admin-formulario-producto select {
+    width: 100%;
+    min-width: 0;
+    min-height: 47px;
+    padding: 12px 14px;
+    border: 1px solid #e4d7d0;
+    border-radius: 2px;
+    outline: none;
+    background: var(--admin-blanco);
+    color: var(--admin-cafe);
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagina-admin .admin-formulario-producto input::placeholder {
+    color: #a9958d;
+}
+
+.pagina-admin .admin-formulario-producto input:focus,
+.pagina-admin .admin-formulario-producto select:focus {
+    border-color: var(--admin-rosa);
+    box-shadow: 0 0 0 3px rgba(169, 103, 96, 0.1);
+}
+
+/* Campo de disponibilidad */
+
+.pagina-admin .admin-formulario-producto label:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 11px;
+    min-height: 44px;
+}
+
+.pagina-admin .admin-formulario-producto input[type="checkbox"] {
+    width: 17px;
+    min-width: 17px;
+    min-height: 17px;
+    height: 17px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--admin-rosa);
+    cursor: pointer;
+    box-shadow: none;
+}
+
+/* Botones del formulario */
+
+.pagina-admin .admin-formulario-acciones {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    margin-top: 3px;
+}
+
+.pagina-admin .admin-formulario-acciones button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 12px 20px;
+    border: 1px solid var(--admin-rosa);
+    border-radius: 2px;
+    background: var(--admin-rosa);
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.pagina-admin .admin-formulario-acciones button:hover {
+    border-color: var(--admin-rosa-oscuro);
+    background: var(--admin-rosa-oscuro);
+}
+
+.pagina-admin .admin-formulario-acciones .admin-boton-cancelar {
+    border-color: var(--admin-borde);
+    background: transparent;
+    color: var(--admin-texto);
+}
+
+.pagina-admin .admin-formulario-acciones .admin-boton-cancelar:hover {
+    border-color: var(--admin-rosa);
+    background: var(--admin-rosa-claro);
+    color: var(--admin-rosa-oscuro);
+}
+
+/* ========================================
+   ENCABEZADO DE PRODUCTOS REGISTRADOS
+======================================== */
+
+.pagina-admin .admin-listado-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 0 0 22px;
+}
+
+.pagina-admin .admin-listado-encabezado h3 {
+    margin: 0;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 29px;
+    font-weight: 500;
+}
+
+/* Botón actualizar lista */
+
+.pagina-admin .admin-boton-recargar {
+    min-height: 38px;
+    padding: 9px 14px;
+    border: 1px solid var(--admin-borde);
+    border-radius: 2px;
+    background: var(--admin-blanco);
+    color: var(--admin-rosa-oscuro);
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.pagina-admin .admin-boton-recargar:hover {
+    border-color: var(--admin-rosa);
+    background: var(--admin-rosa-claro);
+}
+
+/* Mensajes y estados de carga */
+
+.pagina-admin .admin-mensaje-error {
+    margin: 0 0 22px;
+    padding: 13px 16px;
+    border: 1px solid #e5cccc;
+    background: #fff4f2;
+    color: var(--admin-rojo);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.pagina-admin .admin-estado-lista {
+    margin: 0;
+    padding: 35px 20px;
+    border: 1px dashed var(--admin-borde);
+    background: #fdfaf7;
+    color: var(--admin-suave);
+    font-size: 12px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* ========================================
+   LISTAS DE CATEGORÍAS Y PRODUCTOS
+======================================== */
+
+.pagina-admin .lista-categorias,
+.pagina-admin .lista-productos-admin {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+}
+
+.pagina-admin .categoria-admin,
+.pagina-admin .producto-admin {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--admin-borde);
+    background: var(--admin-blanco);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pagina-admin .categoria-admin:hover,
+.pagina-admin .producto-admin:hover {
+    border-color: #d8b9b1;
+    box-shadow: 0 7px 20px rgba(68, 45, 36, 0.045);
+}
+
+.pagina-admin .producto-admin {
+    height: 100%;
+}
+
+/* Información de cada elemento */
+
+.pagina-admin .categoria-admin > div:first-child,
+.pagina-admin .producto-admin > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.pagina-admin .categoria-admin strong,
+.pagina-admin .producto-admin strong {
+    display: block;
+    margin-bottom: 9px;
+    overflow-wrap: anywhere;
+    color: var(--admin-cafe);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 23px;
+    font-weight: 600;
+}
+
+.pagina-admin .producto-admin strong {
+    font-size: 24px;
+}
+
+.pagina-admin .categoria-admin p,
+.pagina-admin .producto-admin p {
+    margin: 6px 0 0;
+    color: var(--admin-suave);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+/* Estado de disponibilidad */
+
+.pagina-admin .producto-admin p:last-child {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 14px;
+    padding: 6px 10px;
+    border: 1px solid #dbe5d7;
+    border-radius: 2px;
+    background: #f1f6ee;
+    color: var(--admin-verde);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* ========================================
+   BOTONES DE ACCIÓN
+======================================== */
+
+.pagina-admin .categoria-admin > div:last-child,
+.pagina-admin .producto-admin > div:last-child {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pagina-admin .categoria-admin button,
+.pagina-admin .producto-admin button {
+    min-width: 82px;
+    min-height: 35px;
+    padding: 8px 12px;
+    border: 1px solid #d7b5ad;
+    border-radius: 2px;
+    background: transparent;
+    color: #704740;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Editar */
+
+.pagina-admin .categoria-admin button:first-child,
+.pagina-admin .producto-admin button:first-child {
+    border-color: #d7b5ad;
+    color: #704740;
+}
+
+.pagina-admin .categoria-admin button:first-child:hover,
+.pagina-admin .producto-admin button:first-child:hover {
+    border-color: var(--admin-rosa);
+    background: var(--admin-rosa-claro);
+}
+
+/* Eliminar */
+
+.pagina-admin .categoria-admin button:last-child,
+.pagina-admin .producto-admin button:last-child {
+    border-color: #e5cccc;
+    color: var(--admin-rojo);
+}
+
+.pagina-admin .categoria-admin button:last-child:hover,
+.pagina-admin .producto-admin button:last-child:hover {
+    border-color: var(--admin-rojo);
+    background: #fff0ef;
+}
+
+/* ========================================
+   ESTADOS DE FOCO
+======================================== */
+
+.pagina-admin .admin-panel button:focus-visible,
+.pagina-admin .admin-panel input:focus-visible,
+.pagina-admin .admin-panel select:focus-visible,
+.pagina-admin .admin-barra a:focus-visible,
+.pagina-admin .admin-barra button:focus-visible,
+.pagina-admin .admin-tarjeta:focus-visible,
+.pagina-admin .admin-boton-banner:focus-visible,
+.pagina-admin .admin-volver:focus-visible {
+    outline: 2px solid var(--admin-rosa);
+    outline-offset: 3px;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 900px) {
+    .pagina-admin {
+        padding: 0 4% 65px;
+    }
+
+    .pagina-admin .admin-barra {
+        width: calc(100% + 8%);
+        margin-left: -4%;
+        padding: 20px 4%;
+    }
+
+    .pagina-admin .admin-navegacion {
+        justify-content: flex-start;
+        gap: 12px 18px;
+        width: 100%;
+    }
+
+    .pagina-admin .admin-contenido {
+        width: 100%;
+    }
+
+    .pagina-admin .admin-bienvenida {
+        padding-top: 42px;
+    }
+
+    .pagina-admin .admin-panel {
+        padding: 26px;
+    }
+
+    .pagina-admin .admin-panel-productos {
+        margin-top: 30px;
+    }
+
+    .pagina-admin .lista-categorias,
+    .pagina-admin .lista-productos-admin {
+        grid-template-columns: 1fr;
+    }
+
+    .pagina-admin .categoria-admin,
+    .pagina-admin .producto-admin {
+        padding: 20px;
+    }
+}
+
+/* ========================================
+   MÓVILES
+======================================== */
+
+@media (max-width: 600px) {
+    .pagina-admin {
+        padding: 0 16px 50px;
+    }
+
+    .pagina-admin .admin-barra {
+        width: calc(100% + 32px);
+        margin-left: -16px;
+        padding: 18px 16px;
+        gap: 14px;
+    }
+
+    .pagina-admin .admin-logo {
+        font-size: 27px;
+    }
+
+    .pagina-admin .admin-etiqueta {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .pagina-admin .admin-navegacion {
+        gap: 10px 16px;
+    }
+
+    .pagina-admin .admin-enlace {
+        font-size: 11px;
+    }
+
+    .pagina-admin .admin-cerrar-sesion {
+        padding: 9px 11px;
+        font-size: 10px;
+    }
+
+    .pagina-admin .admin-bienvenida {
+        padding: 38px 0 28px;
+    }
+
+    .pagina-admin .admin-bienvenida h1 {
+        font-size: 40px;
+    }
+
+    .pagina-admin .admin-descripcion {
+        font-size: 13px;
+    }
+
+    .pagina-admin .admin-banner {
+        min-height: 340px;
+    }
+
+    .pagina-admin .admin-banner::after {
+        background: linear-gradient(
+            90deg,
+            rgba(245, 232, 229, 0.96) 0%,
+            rgba(245, 232, 229, 0.82) 65%,
+            rgba(245, 232, 229, 0.35) 100%
+        );
+    }
+
+    .pagina-admin .admin-banner-contenido {
+        padding: 27px 22px;
+    }
+
+    .pagina-admin .admin-banner-contenido h2 {
+        font-size: 35px;
+    }
+
+    .pagina-admin .admin-tarjetas {
+        grid-template-columns: 1fr;
+    }
+
+    .pagina-admin .admin-tarjeta {
+        min-height: 200px;
+        padding: 24px;
+    }
+
+    .pagina-admin .admin-accesos {
+        padding-top: 40px;
+    }
+
+    .pagina-admin .titulo-pagina {
+        margin-bottom: 28px;
+        padding-bottom: 23px;
+    }
+
+    .pagina-admin .titulo-pagina h1 {
+        font-size: 38px;
+    }
+
+    .pagina-admin .titulo-pagina span {
+        font-size: 12px;
+    }
+
+    .pagina-admin .admin-panel {
+        padding: 20px 15px;
+    }
+
+    .pagina-admin .admin-panel > h2 {
+        font-size: 30px;
+    }
+
+    .pagina-admin .admin-panel > h3 {
+        font-size: 26px;
+    }
+
+    .pagina-admin .admin-panel > form {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        padding: 17px;
+    }
+
+    .pagina-admin .admin-panel > form > button[type="submit"] {
+        width: 100%;
+    }
+
+    .pagina-admin .admin-panel-productos {
+        margin-top: 25px;
+    }
+
+    .pagina-admin .admin-productos-encabezado {
+        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+
+    .pagina-admin .admin-productos-encabezado h2 {
+        font-size: 31px;
+    }
+
+    .pagina-admin .admin-conteo {
+        min-height: 34px;
+        padding: 8px 11px;
+    }
+
+    .pagina-admin .admin-formulario-producto {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 18px;
+    }
+
+    .pagina-admin .admin-formulario-producto h3,
+    .pagina-admin .admin-formulario-acciones {
+        grid-column: 1;
+    }
+
+    .pagina-admin .admin-formulario-producto h3 {
+        font-size: 25px;
+    }
+
+    .pagina-admin .admin-formulario-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pagina-admin .admin-formulario-acciones button {
+        width: 100%;
+    }
+
+    .pagina-admin .admin-listado-encabezado {
+        align-items: flex-start;
+    }
+
+    .pagina-admin .admin-listado-encabezado h3 {
+        font-size: 26px;
+    }
+
+    .pagina-admin .admin-boton-recargar {
+        width: 100%;
+    }
+
+    .pagina-admin .categoria-admin,
+    .pagina-admin .producto-admin {
+        flex-direction: column;
+        gap: 18px;
+        padding: 18px;
+    }
+
+    .pagina-admin .categoria-admin > div:last-child,
+    .pagina-admin .producto-admin > div:last-child {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .pagina-admin .categoria-admin button,
+    .pagina-admin .producto-admin button {
+        flex: 1;
+    }
+}
+
+/* ========================================
+   PANTALLAS MUY PEQUEÑAS
+======================================== */
+
+@media (max-width: 380px) {
+    .pagina-admin .admin-panel {
+        padding: 18px 12px;
+    }
+
+    .pagina-admin .admin-formulario-producto {
+        padding: 13px;
+    }
+
+    .pagina-admin .admin-productos-encabezado > div {
+        min-width: 0;
+    }
+
+    .pagina-admin .categoria-admin button,
+    .pagina-admin .producto-admin button {
+        min-width: 0;
+        padding: 8px;
+    }
+}
+
+/* ========================================
+   ANIMACIONES REDUCIDAS
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .pagina-admin *,
+    .pagina-admin *::before,
+    .pagina-admin *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

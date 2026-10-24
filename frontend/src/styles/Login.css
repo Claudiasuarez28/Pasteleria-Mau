@@ -1,10 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
-/* ========================================
-   CONFIGURACIÓN GENERAL DEL LOGIN
-======================================== */
-
 .pagina-login {
     --rosa: #c98291;
     --rosa-oscuro: #a85f70;
@@ -24,9 +20,7 @@
     width: 100%;
     min-height: 100vh;
     min-height: 100svh;
-
     padding: 110px 7% 80px;
-
     overflow: hidden;
 
     background-color: #eac9ce;
@@ -53,9 +47,7 @@
     box-sizing: border-box;
 }
 
-/* ========================================
-   BARRA SUPERIOR
-======================================== */
+/* Barra superior */
 
 .login-barra-superior {
     position: absolute;
@@ -92,7 +84,6 @@
 
 .login-marca span {
     margin-top: 7px;
-
     font-family: "DM Sans", sans-serif;
     font-size: 9px;
     font-weight: 500;
@@ -115,9 +106,7 @@
     margin-left: 6px;
 }
 
-/* ========================================
-   TARJETA DE INICIO DE SESIÓN
-======================================== */
+/* Tarjeta */
 
 .login-contenedor {
     position: relative;
@@ -125,6 +114,7 @@
 
     width: 100%;
     max-width: 450px;
+    margin: 0;
 
     padding: 34px 38px 30px;
 
@@ -140,16 +130,14 @@
     animation: login-aparecer 0.55s ease both;
 }
 
-/* ========================================
-   ENLACE PARA VOLVER
-======================================== */
+/* Enlace para volver */
 
 .login-volver {
     display: inline-flex;
     align-items: center;
     gap: 9px;
 
-    margin-bottom: 28px;
+    margin: 0 0 28px;
 
     color: var(--texto-suave);
     font-size: 12px;
@@ -171,15 +159,14 @@
     transform: translateX(-3px);
 }
 
-/* ========================================
-   LOGOTIPO MAUÉ
-======================================== */
+/* Encabezado y logotipo */
 
 .login-encabezado {
     text-align: center;
 }
 
 .login-logo {
+    display: inline-block;
     padding-left: 7px;
 
     color: #67464a;
@@ -189,6 +176,7 @@
     font-weight: 500;
     line-height: 1;
     letter-spacing: 7px;
+    text-decoration: none;
 }
 
 .login-logo-subtitulo {
@@ -202,34 +190,6 @@
     letter-spacing: 3px;
 }
 
-/* ========================================
-   SEPARADOR DECORATIVO
-======================================== */
-
-.login-separador {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 13px;
-
-    margin: 23px 0;
-}
-
-.login-separador > span:not(.login-separador-diamante) {
-    width: 43px;
-    height: 1px;
-    background: #e8d4d2;
-}
-
-.login-separador-diamante {
-    color: #c58b91;
-    font-size: 13px;
-}
-
-/* ========================================
-   TÍTULOS Y DESCRIPCIÓN
-======================================== */
-
 .login-etiqueta {
     margin: 0 0 10px;
 
@@ -241,7 +201,8 @@
     text-align: center;
 }
 
-.login-encabezado h1 {
+.login-encabezado h1,
+.login-contenedor h1 {
     margin: 0;
 
     color: var(--cafe);
@@ -265,17 +226,40 @@
     text-align: center;
 }
 
-/* ========================================
-   FORMULARIO
-======================================== */
+/* Separador decorativo */
 
-.login-formulario {
+.login-separador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    margin: 23px 0;
+}
+
+.login-separador > span:not(.login-separador-diamante) {
+    width: 43px;
+    height: 1px;
+    background: #e8d4d2;
+}
+
+.login-separador-diamante {
+    color: #c58b91;
+    font-size: 13px;
+}
+
+/* Formulario: admite las clases originales y las actuales */
+
+.login-formulario,
+.login-contenedor form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
 }
 
-.login-formulario label {
+.login-formulario label,
+.login-contenedor form label {
+    display: block;
     margin: 0 0 9px;
 
     color: var(--cafe);
@@ -283,8 +267,18 @@
     font-weight: 600;
 }
 
+.login-campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.login-campo input,
 .login-formulario > input,
-.login-campo-contrasena input {
+.login-campo-contrasena input,
+.login-contrasena input,
+.login-contenedor form input {
     width: 100%;
     min-width: 0;
     height: 47px;
@@ -311,35 +305,42 @@
     margin-bottom: 20px;
 }
 
-.login-formulario input::placeholder {
+.login-campo input::placeholder,
+.login-formulario input::placeholder,
+.login-contenedor form input::placeholder {
     color: #b6a19c;
 }
 
-.login-formulario input:focus {
+.login-campo input:focus,
+.login-formulario input:focus,
+.login-contenedor form input:focus {
     border-color: var(--rosa);
     background: white;
     box-shadow: 0 0 0 3px rgba(201, 130, 145, 0.14);
 }
 
-/* ========================================
-   CAMPO DE CONTRASEÑA
-======================================== */
+/* Contraseña */
 
-.login-campo-contrasena {
+.login-campo-contrasena,
+.login-contrasena {
     position: relative;
     display: flex;
     align-items: center;
-
+    width: 100%;
     margin-bottom: 22px;
 }
 
-.login-campo-contrasena input {
-    padding-right: 75px;
+.login-campo-contrasena input,
+.login-contrasena input {
+    padding-right: 80px;
 }
 
-.login-mostrar-contrasena {
+.login-mostrar-contrasena,
+.login-mostrar {
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
 
     padding: 5px 0;
 
@@ -355,20 +356,20 @@
     cursor: pointer;
 }
 
-.login-mostrar-contrasena:hover {
+.login-mostrar-contrasena:hover,
+.login-mostrar:hover {
     color: var(--cafe);
 }
 
-/* ========================================
-   MENSAJE DE ERROR
-======================================== */
+/* Error */
 
-.login-mensaje-error {
+.login-mensaje-error,
+.login-error {
     display: flex;
     align-items: flex-start;
     gap: 9px;
 
-    margin: -4px 0 17px;
+    margin: 0 0 17px;
     padding: 11px 12px;
 
     border: 1px solid #e8c1c4;
@@ -397,9 +398,7 @@
     font-weight: 700;
 }
 
-/* ========================================
-   BOTÓN DE ACCESO
-======================================== */
+/* Botón */
 
 .login-boton {
     display: flex;
@@ -430,10 +429,15 @@
         transform 0.2s ease;
 }
 
-.login-boton:hover {
+.login-boton:hover:not(:disabled) {
     transform: translateY(-1px);
     border-color: #9f5968;
     background: #9f5968;
+}
+
+.login-boton:disabled {
+    cursor: wait;
+    opacity: 0.7;
 }
 
 .login-flecha {
@@ -445,17 +449,7 @@
     transform: translateX(3px);
 }
 
-.login-boton:focus-visible,
-.login-mostrar-contrasena:focus-visible,
-.login-volver:focus-visible,
-.login-enlace-inicio:focus-visible {
-    outline: 2px solid var(--rosa-oscuro);
-    outline-offset: 4px;
-}
-
-/* ========================================
-   PIE DE LA TARJETA
-======================================== */
+/* Pie */
 
 .login-pie {
     display: flex;
@@ -485,9 +479,7 @@
     font-style: italic;
 }
 
-/* ========================================
-   COPYRIGHT
-======================================== */
+/* Copyright */
 
 .login-copyright {
     position: absolute;
@@ -501,7 +493,6 @@
     gap: 12px;
 
     color: #fffaf8;
-
     font-size: 10px;
     text-shadow: 0 1px 6px rgba(91, 48, 56, 0.55);
 }
@@ -515,9 +506,7 @@
     text-decoration: underline;
 }
 
-/* ========================================
-   ANIMACIÓN
-======================================== */
+/* Animación */
 
 @keyframes login-aparecer {
     from {
@@ -531,9 +520,18 @@
     }
 }
 
-/* ========================================
-   TABLET Y MÓVILES
-======================================== */
+/* Accesibilidad */
+
+.login-boton:focus-visible,
+.login-mostrar:focus-visible,
+.login-mostrar-contrasena:focus-visible,
+.login-volver:focus-visible,
+.login-enlace-inicio:focus-visible {
+    outline: 2px solid var(--rosa-oscuro);
+    outline-offset: 4px;
+}
+
+/* Tablet y móviles */
 
 @media (max-width: 768px) {
     .pagina-login {
@@ -578,7 +576,8 @@
         font-size: 43px;
     }
 
-    .login-encabezado h1 {
+    .login-encabezado h1,
+    .login-contenedor h1 {
         font-size: 35px;
     }
 
@@ -620,7 +619,8 @@
         font-size: 39px;
     }
 
-    .login-encabezado h1 {
+    .login-encabezado h1,
+    .login-contenedor h1 {
         font-size: 32px;
     }
 
@@ -632,10 +632,6 @@
         gap: 6px;
     }
 }
-
-/* ========================================
-   ACCESIBILIDAD
-======================================== */
 
 @media (prefers-reduced-motion: reduce) {
     .pagina-login *,

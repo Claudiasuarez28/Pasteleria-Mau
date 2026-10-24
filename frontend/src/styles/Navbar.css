@@ -1,12 +1,23 @@
 
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap");
+
+/* ========================================
+   BARRA DE NAVEGACIÓN MAUÉ
+======================================== */
+
+.navbar,
 .navbar-maue {
     position: sticky;
     top: 0;
     z-index: 1000;
+
     width: 100%;
+
     background: rgba(251, 248, 243, 0.97);
     border-bottom: 1px solid #e9dfd6;
     backdrop-filter: blur(12px);
+
+    font-family: "DM Sans", sans-serif;
 }
 
 .navbar-contenido {
@@ -14,21 +25,29 @@
     min-height: 96px;
     margin: 0 auto;
     padding: 14px 5%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 28px;
 }
 
+/* ========================================
+   LOGOTIPO
+======================================== */
+
 .navbar-logo {
     display: inline-block;
     flex-shrink: 0;
+
     color: #352922;
+
     font-family: "Cormorant Garamond", Georgia, serif;
     font-size: 35px;
     font-weight: 500;
     letter-spacing: 6px;
     line-height: 1;
+
     text-decoration: none;
     transition: color 0.2s ease;
 }
@@ -37,45 +56,68 @@
     color: #a96760;
 }
 
-.navbar-menu {
+/* ========================================
+   ENLACES
+   Compatible con las dos estructuras JSX
+======================================== */
+
+.navbar-menu,
+.navbar-links {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: clamp(16px, 2.4vw, 38px);
 }
 
-.navbar-enlace {
+.navbar-enlace,
+.navbar-links > a {
     position: relative;
+
     padding: 9px 0;
+
     color: #49343a;
+
     font-family: "DM Sans", sans-serif;
     font-size: 13px;
     font-weight: 400;
+
     text-decoration: none;
     white-space: nowrap;
+
     transition: color 0.2s ease;
 }
 
-.navbar-enlace::after {
+.navbar-enlace::after,
+.navbar-links > a::after {
     content: "";
     position: absolute;
     left: 0;
     bottom: 2px;
+
     width: 0;
     height: 1px;
+
     background: #a96760;
     transition: width 0.25s ease;
 }
 
 .navbar-enlace:hover,
-.navbar-enlace.activo {
+.navbar-enlace.activo,
+.navbar-links > a:hover,
+.navbar-links > a.activo {
     color: #a96760;
 }
 
 .navbar-enlace:hover::after,
-.navbar-enlace.activo::after {
+.navbar-enlace.activo::after,
+.navbar-links > a:hover::after,
+.navbar-links > a.activo::after {
     width: 100%;
 }
+
+/* ========================================
+   ACCIONES
+======================================== */
 
 .navbar-acciones {
     display: flex;
@@ -85,15 +127,21 @@
     flex-shrink: 0;
 }
 
+/* Carrito */
+
 .navbar-carrito {
     position: relative;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     width: 39px;
     height: 39px;
+
     color: #49343a;
     text-decoration: none;
+
     transition: color 0.2s ease;
 }
 
@@ -106,43 +154,79 @@
     height: 23px;
 }
 
-.navbar-contador {
+.navbar-contador,
+.navbar-carrito-cantidad {
     position: absolute;
     top: -2px;
     right: -5px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     min-width: 17px;
     height: 17px;
     padding: 0 4px;
+
     border-radius: 50px;
     background: #a96760;
     color: #fffdfa;
+
     font-family: "DM Sans", sans-serif;
     font-size: 10px;
     line-height: 1;
 }
 
+/* Inicio de sesión y administración */
+
 .navbar-sesion,
-.navbar-admin {
+.navbar-admin,
+.navbar-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     border: 1px solid #d7b5ad;
+    border-radius: 0;
+
     padding: 10px 14px;
+
     background: transparent;
     color: #49343a;
+
     font-family: "DM Sans", sans-serif;
     font-size: 12px;
+    font-weight: 500;
+
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .navbar-sesion:hover,
-.navbar-admin:hover {
+.navbar-admin:hover,
+.navbar-login:hover,
+.navbar-admin.activo {
+    border-color: #a96760;
     background: #a96760;
     color: #fffdfa;
 }
+
+/* Evita que el botón de sesión tenga estilos por defecto */
+
+.navbar-login {
+    appearance: none;
+    line-height: normal;
+}
+
+/* ========================================
+   TABLET
+======================================== */
 
 @media (max-width: 1050px) {
     .navbar-contenido {
@@ -151,11 +235,13 @@
         padding-left: 3%;
     }
 
-    .navbar-menu {
+    .navbar-menu,
+    .navbar-links {
         gap: 17px;
     }
 
-    .navbar-enlace {
+    .navbar-enlace,
+    .navbar-links > a {
         font-size: 12px;
     }
 
@@ -168,6 +254,10 @@
         letter-spacing: 5px;
     }
 }
+
+/* ========================================
+   MÓVILES
+======================================== */
 
 @media (max-width: 760px) {
     .navbar-contenido {
@@ -186,38 +276,70 @@
         gap: 10px;
     }
 
-    .navbar-menu {
+    .navbar-menu,
+    .navbar-links {
         order: 3;
+
         width: 100%;
+
         justify-content: center;
         gap: clamp(12px, 4vw, 25px);
+
         padding: 7px 0 3px;
+
         border-top: 1px solid #e9dfd6;
     }
 
-    .navbar-enlace {
+    .navbar-enlace,
+    .navbar-links > a {
         font-size: 11px;
     }
 
     .navbar-sesion,
-    .navbar-admin {
+    .navbar-admin,
+    .navbar-login {
         padding: 8px 10px;
         font-size: 11px;
     }
 }
 
+/* ========================================
+   MÓVILES PEQUEÑOS
+======================================== */
+
 @media (max-width: 420px) {
-    .navbar-menu {
+    .navbar-menu,
+    .navbar-links {
         gap: 12px;
+        flex-wrap: wrap;
     }
 
-    .navbar-enlace {
+    .navbar-enlace,
+    .navbar-links > a {
         font-size: 10px;
     }
 
     .navbar-sesion,
-    .navbar-admin {
+    .navbar-admin,
+    .navbar-login {
         padding: 7px 8px;
         font-size: 10px;
     }
+
+    .navbar-carrito {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* ========================================
+   ACCESIBILIDAD
+======================================== */
+
+.navbar a:focus-visible,
+.navbar button:focus-visible,
+.navbar-maue a:focus-visible,
+.navbar-maue button:focus-visible {
+    outline: 2px solid #a96760;
+    outline-offset: 4px;
 }

@@ -1,355 +1,382 @@
+
 import { useEffect, useState } from "react";
-
-import {
-    obtenerCategorias,
-    crearCategoria,
-    actualizarCategoria,
-    eliminarCategoria
-} from "../services/categoriaService";
-
+import { Link } from "react-router-dom";
 import {
     obtenerProductos,
     crearProducto,
     actualizarProducto,
-    eliminarProducto
+    eliminarProducto,
 } from "../services/productoService";
 
 function AdminPanel() {
-
-    const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
-
-    const [nombreCategoria, setNombreCategoria] = useState("");
-    const [descripcionCategoria, setDescripcionCategoria] = useState("");
-    const [categoriaEditando, setCategoriaEditando] = useState(null);
+    const [categorias, setCategorias] = useState([]);
 
     const [nombreProducto, setNombreProducto] = useState("");
     const [precioProducto, setPrecioProducto] = useState("");
     const [categoriaProducto, setCategoriaProducto] = useState("");
     const [disponibilidad, setDisponibilidad] = useState(true);
     const [productoEditando, setProductoEditando] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        cargarCategorias();
         cargarProductos();
     }, []);
 
-    const cargarCategorias = async () => {
-        try {
-            const data = await obtenerCategorias();
-            setCategorias(data);
-        } catch (error) {
-            console.error("Error al obtener categorías:", error);
-        }
-    };
-
     const cargarProductos = async () => {
         try {
+            setCargando(true);
+            setError("");
+
             const data = await obtenerProductos();
-            setProductos(data);
-        } catch (error) {
-            console.error("Error al obtener productos:", error);
+            setProductos(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error("Error al obtener productos:", err);
+            setError("No fue posible cargar los productos. Intenta nuevamente.");
+        } finally {
+            setCargando(false);
         }
     };
-
-    // ==========================
-    // CATEGORÍAS
-    // ==========================
-
-    const guardarCategoria = async (e) => {
-        e.preventDefault();
-
-        const categoria = {
-            nombre: nombreCategoria,
-            descripcion: descripcionCategoria
-        };
-
-        try {
-            if (categoriaEditando) {
-                await actualizarCategoria(categoriaEditando, categoria);
-                setCategoriaEditando(null);
-            } else {
-                await crearCategoria(categoria);
-            }
-
-            setNombreCategoria("");
-            setDescripcionCategoria("");
-
-            await cargarCategorias();
-
-        } catch (error) {
-            console.error("Error al guardar categoría:", error);
-        }
-    };
-
-    const editarCategoria = (categoria) => {
-        setCategoriaEditando(categoria.id);
-        setNombreCategoria(categoria.nombre);
-        setDescripcionCategoria(categoria.descripcion);
-    };
-
-    const borrarCategoria = async (id) => {
-        try {
-            await eliminarCategoria(id);
-            await cargarCategorias();
-        } catch (error) {
-            console.error("Error al eliminar categoría:", error);
-        }
-    };
-
-    // ==========================
-    // PRODUCTOS
-    // ==========================
 
     const guardarProducto = async (e) => {
         e.preventDefault();
+        setError("");
+
+        if (!nombreProducto.trim()) {
+            setError("Escribe el nombre del producto.");
+            return;
+        }
+
+        if (precioProducto === "" || Number(precioProducto) < 0) {
+            setError("Ingresa un precio válido.");
+            return;
+        }
+
+        if (!categoriaProducto.trim()) {
+            setError("Escribe la categoría del producto.");
+            return;
+        }
 
         const producto = {
-            nombre: nombreProducto,
+            nombre: nombreProducto.trim(),
             precio: Number(precioProducto),
-            categoria: categoriaProducto,
-            disponibilidad: disponibilidad
+            categoria: categoriaProducto.trim(),
+            disponibilidad,
         };
 
         try {
-            if (productoEditando) {
+            if (productoEditando !== null) {
                 await actualizarProducto(productoEditando, producto);
-                setProductoEditando(null);
             } else {
                 await crearProducto(producto);
             }
 
-            setNombreProducto("");
-            setPrecioProducto("");
-            setCategoriaProducto("");
-            setDisponibilidad(true);
-
+            cancelarEdicion();
             await cargarProductos();
-
-        } catch (error) {
-            console.error("Error al guardar producto:", error);
+        } catch (err) {
+            console.error("Error al guardar producto:", err);
+            setError("No fue posible guardar el producto. Verifica los datos e inténtalo nuevamente.");
         }
     };
 
     const editarProducto = (producto) => {
         setProductoEditando(producto.id);
+        setNombreProducto(producto.nombre ?? "");
+        setPrecioProducto(String(producto.precio ?? ""));
+        setCategoriaProducto(
+            typeof producto.categoria === "string"
+                ? producto.categoria
+                : producto.categoria?.nombre ?? ""
+        );
+        setDisponibilidad(producto.disponibilidad ?? true);
 
-        setNombreProducto(producto.nombre);
-        setPrecioProducto(producto.precio);
-        setCategoriaProducto(producto.categoria);
-        setDisponibilidad(producto.disponibilidad);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const cancelarEdicion = () => {
+        setProductoEditando(null);
+        setNombreProducto("");
+        setPrecioProducto("");
+        setCategoriaProducto("");
+        setDisponibilidad(true);
     };
 
     const borrarProducto = async (id) => {
+        const confirmar = window.confirm(
+            "¿Estás segura de que deseas eliminar este producto?"
+        );
+
+        if (!confirmar) return;
+
+        setError("");
+
         try {
             await eliminarProducto(id);
             await cargarProductos();
-        } catch (error) {
-            console.error("Error al eliminar producto:", error);
+        } catch (err) {
+            console.error("Error al eliminar producto:", err);
+            setError("No fue posible eliminar el producto.");
         }
     };
 
     return (
-        <section className="admin-panel">
+        <main className="pagina-admin">
+            <header className="admin-barra">
+                <Link to="/admin" className="admin-logo">
+                    MAUÉ
+                </Link>
 
-            <h2>Panel de administrador</h2>
+                <span className="admin-etiqueta">
+                    PANEL ADMINISTRATIVO
+                </span>
 
-            {/* ==========================
-                CATEGORÍAS
-            ========================== */}
-
-            <h3>Gestión de categorías</h3>
-
-            <form onSubmit={guardarCategoria}>
-
-                <input
-                    type="text"
-                    placeholder="Nombre de la categoría"
-                    value={nombreCategoria}
-                    onChange={(e) => setNombreCategoria(e.target.value)}
-                    required
-                />
-
-                <input
-                    type="text"
-                    placeholder="Descripción"
-                    value={descripcionCategoria}
-                    onChange={(e) =>
-                        setDescripcionCategoria(e.target.value)
-                    }
-                    required
-                />
-
-                <button type="submit">
-                    {categoriaEditando
-                        ? "Actualizar categoría"
-                        : "Crear categoría"}
-                </button>
-
-            </form>
-
-            <div className="lista-categorias">
-
-                {categorias.map((categoria) => (
-
-                    <div
-                        className="categoria-admin"
-                        key={categoria.id}
+                <nav className="admin-navegacion">
+                    <Link to="/admin" className="admin-enlace">
+                        Inicio
+                    </Link>
+                    <Link
+                        to="/admin/productos"
+                        className="admin-enlace activo"
                     >
+                        Productos
+                    </Link>
+                    <Link
+                        to="/admin/categorias"
+                        className="admin-enlace"
+                    >
+                        Categorías
+                    </Link>
+                    <Link to="/" className="admin-enlace">
+                        Ver tienda
+                    </Link>
+                </nav>
+            </header>
 
-                        <div>
-                            <strong>{categoria.nombre}</strong>
-                            <p>{categoria.descripcion}</p>
-                        </div>
+            <div className="admin-contenido">
+                <section className="admin-bienvenida">
+                    <Link to="/admin" className="admin-volver">
+                        ← Volver al panel principal
+                    </Link>
 
-                        <div>
+                    <p className="admin-subtitulo">
+                        GESTIÓN DEL CATÁLOGO
+                    </p>
 
-                            <button
-                                onClick={() =>
-                                    editarCategoria(categoria)
-                                }
-                            >
-                                Editar
-                            </button>
+                    <h1>Nuestros productos</h1>
 
-                            <button
-                                onClick={() =>
-                                    borrarCategoria(categoria.id)
-                                }
-                            >
-                                Eliminar
-                            </button>
+                    <p className="admin-descripcion">
+                        Administra las tortas y los postres de MAUÉ.
+                        Crea nuevos productos, actualiza sus precios
+                        y mantén tu catálogo al día.
+                    </p>
+                </section>
 
-                        </div>
-
-                    </div>
-
-                ))}
-
-            </div>
-
-            {/* ==========================
-                PRODUCTOS
-            ========================== */}
-
-            <h3 className="titulo-productos-admin">
-                Gestión de productos
-            </h3>
-
-            <form onSubmit={guardarProducto}>
-
-                <input
-                    type="text"
-                    placeholder="Nombre del producto"
-                    value={nombreProducto}
-                    onChange={(e) =>
-                        setNombreProducto(e.target.value)
-                    }
-                    required
-                />
-
-                <input
-                    type="number"
-                    placeholder="Precio"
-                    value={precioProducto}
-                    onChange={(e) =>
-                        setPrecioProducto(e.target.value)
-                    }
-                    required
-                />
-
-                <input
-                    type="text"
-                    placeholder="Categoría"
-                    value={categoriaProducto}
-                    onChange={(e) =>
-                        setCategoriaProducto(e.target.value)
-                    }
-                    required
-                />
-
-                <label className="disponibilidad">
-
-                    <input
-                        type="checkbox"
-                        checked={disponibilidad}
-                        onChange={(e) =>
-                            setDisponibilidad(e.target.checked)
-                        }
+                <section className="admin-banner admin-banner-productos">
+                    <img
+                        src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1800&q=85"
+                        alt="Torta de chocolate"
                     />
 
-                    Disponible
+                    <div className="admin-banner-contenido">
+                        <p>CATÁLOGO MAUÉ</p>
+                        <h2>Cada detalle hace algo dulce.</h2>
+                        <span>
+                            Gestiona los productos que tus clientes
+                            pueden encontrar en la tienda.
+                        </span>
+                    </div>
+                </section>
 
-                </label>
-
-                <button type="submit">
-
-                    {productoEditando
-                        ? "Actualizar producto"
-                        : "Crear producto"}
-
-                </button>
-
-            </form>
-
-            <div className="lista-productos-admin">
-
-                {productos.map((producto) => (
-
-                    <div
-                        className="producto-admin"
-                        key={producto.id}
-                    >
-
+                <section className="admin-panel admin-panel-productos">
+                    <div className="admin-productos-encabezado">
                         <div>
-
-                            <strong>
-                                {producto.nombre}
-                            </strong>
-
-                            <p>
-                                ${producto.precio.toLocaleString("es-CO")}
+                            <p className="admin-subtitulo">
+                                TU CATÁLOGO
                             </p>
-
+                            <h2>Gestión de productos</h2>
                             <p>
-                                Categoría: {producto.categoria}
+                                Crea, edita y administra los productos
+                                de tu pastelería.
                             </p>
-
-                            <p>
-                                {producto.disponibilidad
-                                    ? "Disponible"
-                                    : "No disponible"}
-                            </p>
-
                         </div>
 
-                        <div>
-
-                            <button
-                                onClick={() =>
-                                    editarProducto(producto)
-                                }
-                            >
-                                Editar
-                            </button>
-
-                            <button
-                                onClick={() =>
-                                    borrarProducto(producto.id)
-                                }
-                            >
-                                Eliminar
-                            </button>
-
-                        </div>
-
+                        <span className="admin-conteo">
+                            {productos.length} productos
+                        </span>
                     </div>
 
-                ))}
+                    {error && (
+                        <p className="admin-mensaje-error" role="alert">
+                            {error}
+                        </p>
+                    )}
 
+                    <form
+                        className="admin-formulario-producto"
+                        onSubmit={guardarProducto}
+                    >
+                        <h3>
+                            {productoEditando !== null
+                                ? "Editar producto"
+                                : "Agregar un producto"}
+                        </h3>
+
+                        <label>
+                            Nombre del producto
+                            <input
+                                type="text"
+                                placeholder="Ej. Torta de chocolate"
+                                value={nombreProducto}
+                                onChange={(e) =>
+                                    setNombreProducto(e.target.value)
+                                }
+                                required
+                            />
+                        </label>
+
+                        <label>
+                            Precio
+                            <input
+                                type="number"
+                                min="0"
+                                step="any"
+                                placeholder="Ej. 45000"
+                                value={precioProducto}
+                                onChange={(e) =>
+                                    setPrecioProducto(e.target.value)
+                                }
+                                required
+                            />
+                        </label>
+
+                        <label>
+                            Categoría
+                            <input
+                                type="text"
+                                placeholder="Ej. Tortas"
+                                value={categoriaProducto}
+                                onChange={(e) =>
+                                    setCategoriaProducto(e.target.value)
+                                }
+                                required
+                            />
+                        </label>
+
+                        <label className="disponibilidad">
+                            <input
+                                type="checkbox"
+                                checked={disponibilidad}
+                                onChange={(e) =>
+                                    setDisponibilidad(e.target.checked)
+                                }
+                            />
+                            Disponible para la venta
+                        </label>
+
+                        <div className="admin-formulario-acciones">
+                            <button type="submit">
+                                {productoEditando !== null
+                                    ? "Guardar cambios"
+                                    : "Crear producto"}
+                            </button>
+
+                            {productoEditando !== null && (
+                                <button
+                                    type="button"
+                                    className="admin-boton-cancelar"
+                                    onClick={cancelarEdicion}
+                                >
+                                    Cancelar
+                                </button>
+                            )}
+                        </div>
+                    </form>
+
+                    <div className="admin-listado-encabezado">
+                        <h3>Productos registrados</h3>
+                        <button
+                            type="button"
+                            className="admin-boton-recargar"
+                            onClick={cargarProductos}
+                        >
+                            Actualizar lista
+                        </button>
+                    </div>
+
+                    {cargando ? (
+                        <p className="admin-estado-lista">
+                            Cargando productos...
+                        </p>
+                    ) : productos.length === 0 ? (
+                        <p className="admin-estado-lista">
+                            Todavía no hay productos registrados.
+                        </p>
+                    ) : (
+                        <div className="lista-productos-admin">
+                            {productos.map((producto) => (
+                                <article
+                                    className="producto-admin"
+                                    key={producto.id}
+                                >
+                                    <div>
+                                        <strong>{producto.nombre}</strong>
+
+                                        <p>
+                                            $
+                                            {Number(
+                                                producto.precio ?? 0
+                                            ).toLocaleString("es-CO")}
+                                        </p>
+
+                                        <p>
+                                            Categoría:{" "}
+                                            {typeof producto.categoria ===
+                                            "string"
+                                                ? producto.categoria
+                                                : producto.categoria?.nombre ??
+                                                  "Sin categoría"}
+                                        </p>
+
+                                        <p
+                                            className={
+                                                producto.disponibilidad
+                                                    ? "estado-disponible"
+                                                    : "estado-no-disponible"
+                                            }
+                                        >
+                                            {producto.disponibilidad
+                                                ? "Disponible"
+                                                : "No disponible"}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                editarProducto(producto)
+                                            }
+                                        >
+                                            Editar
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                borrarProducto(producto.id)
+                                            }
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+                </section>
             </div>
-
-        </section>
+        </main>
     );
 }
 
