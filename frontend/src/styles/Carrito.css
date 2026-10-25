@@ -630,3 +630,255 @@
         transition: none;
     }
 }
+/* ============================================
+   MAUÉ — SELECCIÓN DE PAGO
+============================================ */
+
+.seleccion-pago {
+    width: 100%;
+    padding: 26px 0;
+}
+
+.seleccion-pago-descripcion {
+    margin: 0 0 25px;
+    color: var(--texto-suave);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.opciones-pago {
+    display: grid;
+    gap: 12px;
+}
+
+.opcion-pago {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 82px;
+    padding: 18px;
+    border: 1px solid var(--linea);
+    background: #fffaf7;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.opcion-pago:hover,
+.opcion-pago-activa {
+    border-color: var(--terracota);
+    background: var(--rosa-claro);
+}
+
+.opcion-pago input {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--terracota);
+    flex-shrink: 0;
+}
+
+.opcion-pago-textos {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.opcion-pago-textos strong {
+    color: var(--chocolate);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.opcion-pago-textos small {
+    color: var(--texto-suave);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.pago-simulacion-aviso {
+    margin: 22px 0;
+    padding: 14px 16px;
+    border-left: 2px solid var(--terracota);
+    background: var(--rosa-claro);
+    color: var(--texto-suave);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.pago-error {
+    margin: 14px 0;
+    color: #9c332b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.boton-volver-carrito {
+    margin-top: 22px;
+    cursor: pointer;
+}
+
+/* ============================================
+   CONFIRMACIÓN DEL PEDIDO
+============================================ */
+
+.pago-confirmacion {
+    width: min(100%, 680px);
+    margin: 0 auto;
+    padding: 35px 24px 55px;
+    text-align: center;
+}
+
+.pago-confirmacion-marca {
+    margin-bottom: 35px;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 25px;
+    letter-spacing: 5px;
+}
+
+.pago-confirmacion-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 24px;
+    border: 1px solid var(--terracota);
+    border-radius: 50%;
+    color: var(--terracota);
+    font-size: 30px;
+}
+
+.pago-confirmacion-etiqueta {
+    margin: 0 0 15px;
+    color: var(--terracota);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+}
+
+.pago-confirmacion h2 {
+    margin: 0 0 16px;
+    color: var(--chocolate);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(30px, 5vw, 42px);
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.pago-confirmacion-descripcion {
+    max-width: 440px;
+    margin: 0 auto 30px;
+    color: var(--texto-suave);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.pago-confirmacion-resumen {
+    display: grid;
+    gap: 0;
+    margin: 0 0 30px;
+    padding: 10px 22px;
+    border: 1px solid var(--linea);
+    text-align: left;
+}
+
+.pago-confirmacion-resumen > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--linea);
+}
+
+.pago-confirmacion-resumen > div:last-child {
+    border-bottom: 0;
+}
+
+.pago-confirmacion-resumen span {
+    color: var(--texto-suave);
+    font-size: 11px;
+}
+
+.pago-confirmacion-resumen strong {
+    color: var(--chocolate);
+    font-size: 12px;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.pago-confirmacion-productos {
+    padding: 24px;
+    background: var(--rosa-claro);
+    text-align: left;
+}
+
+.pago-confirmacion-productos h3 {
+    margin: 0 0 18px;
+    color: var(--terracota);
+    font-size: 10px;
+    letter-spacing: 1.7px;
+}
+
+.pago-confirmacion-producto {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--linea);
+    color: var(--chocolate);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.pago-confirmacion-producto:last-child {
+    border-bottom: 0;
+}
+
+.pago-confirmacion-producto strong {
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+.pago-volver {
+    margin-top: 10px;
+    padding: 0 25px;
+    text-decoration: none;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+
+@media (max-width: 700px) {
+    .seleccion-pago {
+        padding-top: 12px;
+    }
+
+    .opcion-pago {
+        padding: 15px 12px;
+    }
+
+    .pago-confirmacion {
+        padding: 25px 0 40px;
+    }
+
+    .pago-confirmacion-resumen {
+        padding: 8px 15px;
+    }
+
+    .pago-confirmacion-resumen > div {
+        gap: 12px;
+    }
+
+    .pago-confirmacion-productos {
+        padding: 18px 15px;
+    }
+
+    .pago-confirmacion-producto {
+        font-size: 10px;
+    }
+}
+
