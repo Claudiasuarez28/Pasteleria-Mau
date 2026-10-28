@@ -25,6 +25,11 @@ public class SeguridadInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler) throws IOException {
 
+        // Permitir las peticiones previas de CORS sin exigir autenticación.
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         String ruta = request.getRequestURI();
         String metodo = request.getMethod();
 
