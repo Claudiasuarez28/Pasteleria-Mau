@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,7 +12,10 @@ public class Usuario {
 
     private String nombre;
     private String correo;
+
+    @JsonIgnore
     private String password;
+
     private String rol;
 
     public Usuario() {
