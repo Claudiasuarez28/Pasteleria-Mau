@@ -1,14 +1,13 @@
-
 package com.example.demo.config;
 
 import com.example.demo.service.TokenService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
-import java.util.Base64;
 
 @Component
 public class SeguridadInterceptor implements HandlerInterceptor {
@@ -25,7 +24,6 @@ public class SeguridadInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler) throws IOException {
 
-        // Permitir las peticiones previas de CORS sin exigir autenticación.
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
@@ -33,53 +31,46 @@ public class SeguridadInterceptor implements HandlerInterceptor {
         String ruta = request.getRequestURI();
         String metodo = request.getMethod();
 
+        // Solo se permite el registro público en esta ruta exacta.
+        // Las demás operaciones sobre usuarios siguen protegidas.
+        boolean registroPublico =
+                "/api/usuarios".equals(ruta)
+                && "POST".equalsIgnoreCase(metodo);
+
+        if (registroPublico) {
+            return true;
+        }
+
         boolean operacionAdministrativa =
                 ruta.startsWith("/api/usuarios")
                 || ((ruta.startsWith("/api/productos")
                 || ruta.startsWith("/api/categorias"))
-                && !metodo.equals("GET"));
+                && !"GET".equalsIgnoreCase(metodo));
 
         if (!operacionAdministrativa) {
             return true;
         }
 
-        String encabezado = request.getHeader("Authorization");
+        String token = obtenerToken(request);
 
-        if (encabezado == null || !encabezado.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write(
-                    "{\"mensaje\":\"Debes iniciar sesión.\"}"
-            );
-            return false;
-        }
-
-        String token = encabezado.substring(7);
-
-        if (!tokenService.validarToken(token)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write(
-                    "{\"mensaje\":\"La sesión no es válida o ha expirado.\"}"
+        if (token == null || !tokenService.validarToken(token)) {
+            responderError(
+                    response,
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "La sesión no es válida o ha expirado."
             );
             return false;
         }
 
         try {
-            String contenido = token.split("\\.")[0];
-            String datos = new String(
-                    Base64.getUrlDecoder().decode(contenido),
-                    java.nio.charset.StandardCharsets.UTF_8
-            );
+            String rol = tokenService.obtenerRol(token);
 
-            String[] campos = datos.split("\\|", -1);
-
-            if (campos.length != 3
-                    || !"administrador".equalsIgnoreCase(campos[1])) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write(
-                        "{\"mensaje\":\"No tienes permisos de administrador.\"}"
+            if (!"administrador".equalsIgnoreCase(rol)
+                    && !"admin".equalsIgnoreCase(rol)) {
+                responderError(
+                        response,
+                        HttpServletResponse.SC_FORBIDDEN,
+                        "No tienes permisos de administrador."
                 );
                 return false;
             }
@@ -87,12 +78,50 @@ public class SeguridadInterceptor implements HandlerInterceptor {
             return true;
 
         } catch (RuntimeException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write(
-                    "{\"mensaje\":\"El token no es válido.\"}"
+            responderError(
+                    response,
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "El token no es válido."
             );
             return false;
         }
+    }
+
+    private void responderError(
+            HttpServletResponse response,
+            int estado,
+            String mensaje) throws IOException {
+
+        response.setStatus(estado);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(
+                "{\"mensaje\":\"" + mensaje + "\"}"
+        );
+    }
+
+    private String obtenerToken(HttpServletRequest request) {
+
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("token".equals(cookie.getName())
+                        && cookie.getValue() != null
+                        && !cookie.getValue().isBlank()) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        // Compatibilidad con el frontend que utiliza Bearer.
+        String encabezado = request.getHeader("Authorization");
+
+        if (encabezado != null && encabezado.startsWith("Bearer ")) {
+            String token = encabezado.substring(7).trim();
+            return token.isEmpty() ? null : token;
+        }
+
+        return null;
     }
 }

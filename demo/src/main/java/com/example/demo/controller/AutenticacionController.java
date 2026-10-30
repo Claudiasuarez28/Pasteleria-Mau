@@ -1,11 +1,12 @@
-
 package com.example.demo.controller;
 
 import com.example.demo.model.Usuario;
 import com.example.demo.service.AutenticacionService;
 import com.example.demo.service.TokenService;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -45,21 +46,20 @@ public class AutenticacionController {
                 || solicitud.password() == null
                 || solicitud.correo().isBlank()
                 || solicitud.password().isBlank()) {
-
             return ResponseEntity.badRequest().body(
-                Map.of("mensaje", "Debes ingresar correo y contraseña.")
+                    Map.of("mensaje", "Debes ingresar correo y contraseña.")
             );
         }
 
         Optional<Usuario> resultado =
                 autenticacionService.iniciarSesion(
-                    solicitud.correo(),
-                    solicitud.password()
+                        solicitud.correo(),
+                        solicitud.password()
                 );
 
         if (resultado.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                Map.of("mensaje", "Correo o contraseña incorrectos.")
+                    Map.of("mensaje", "Correo o contraseña incorrectos.")
             );
         }
 
@@ -73,7 +73,6 @@ public class AutenticacionController {
                 ? "usuario"
                 : usuario.getRol().trim().toLowerCase(Locale.ROOT);
 
-        // Unifica el rol que espera el interceptor.
         String rol = rolOriginal.equals("admin")
                 || rolOriginal.equals("administrador")
                 ? "administrador"
@@ -81,13 +80,39 @@ public class AutenticacionController {
 
         String token = tokenService.generarToken(correo, rol);
 
-        return ResponseEntity.ok(Map.of(
-            "id", usuario.getId() == null ? "" : usuario.getId(),
-            "nombre", usuario.getNombre() == null ? "" : usuario.getNombre(),
-            "correo", correo,
-            "rol", rol,
-            "token", token
-        ));
+        ResponseCookie cookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(15 * 60)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of(
+                        "id", usuario.getId() == null ? "" : usuario.getId(),
+                        "nombre", usuario.getNombre() == null
+                                ? "" : usuario.getNombre(),
+                        "correo", correo,
+                        "rol", rol
+                ));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> cerrarSesion() {
+
+        ResponseCookie cookie = ResponseCookie.from("token", "")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Strict")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("mensaje", "Sesión cerrada correctamente."));
     }
 
     public record SolicitudLogin(String correo, String password) {

@@ -1,20 +1,21 @@
 
 package com.example.demo.service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @Service
 public class TokenService {
 
-    private static final long DURACION_MS = 8 * 60 * 60 * 1000L;
-    private static final String ALGORITMO = "HmacSHA256";
+    private static final long DURACION_MS = 15 * 60 * 1000L;
 
-    private final byte[] clave;
+    private final SecretKey clave;
 
     public TokenService() {
         String secreto = System.getenv("MAUE_JWT_SECRET");
@@ -26,78 +27,46 @@ public class TokenService {
             );
         }
 
-        this.clave = secreto.getBytes(StandardCharsets.UTF_8);
+        this.clave = Keys.hmacShaKeyFor(
+                secreto.getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     public String generarToken(String correo, String rol) {
-        long expiracion = System.currentTimeMillis() + DURACION_MS;
+        Date ahora = new Date();
+        Date expiracion = new Date(ahora.getTime() + DURACION_MS);
 
-        String datos = correo + "|" + rol + "|" + expiracion;
-        String contenido = Base64.getUrlEncoder()
-                .withoutPadding()
-                .encodeToString(datos.getBytes(StandardCharsets.UTF_8));
-
-        return contenido + "." + firmar(contenido);
+        return Jwts.builder()
+                .subject(correo)
+                .claim("rol", rol)
+                .issuedAt(ahora)
+                .expiration(expiracion)
+                .signWith(clave)
+                .compact();
     }
 
     public boolean validarToken(String token) {
         try {
-            if (token == null || token.isBlank()) {
-                return false;
-            }
-
-            String[] partes = token.split("\\.", -1);
-
-            if (partes.length != 2) {
-                return false;
-            }
-
-            String firmaEsperada = firmar(partes[0]);
-
-            if (!java.security.MessageDigest.isEqual(
-                    firmaEsperada.getBytes(StandardCharsets.UTF_8),
-                    partes[1].getBytes(StandardCharsets.UTF_8))) {
-                return false;
-            }
-
-            String datos = new String(
-                    Base64.getUrlDecoder().decode(partes[0]),
-                    StandardCharsets.UTF_8
-            );
-
-            String[] campos = datos.split("\\|", -1);
-
-            if (campos.length != 3) {
-                return false;
-            }
-
-            long expiracion = Long.parseLong(campos[2]);
-
-            return !campos[0].isBlank()
-                    && expiracion > System.currentTimeMillis();
-
+            obtenerClaims(token);
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    private String firmar(String contenido) {
-        try {
-            Mac mac = Mac.getInstance(ALGORITMO);
-            mac.init(new SecretKeySpec(clave, ALGORITMO));
+    public String obtenerCorreo(String token) {
+        return obtenerClaims(token).getSubject();
+    }
 
-            byte[] firma = mac.doFinal(
-                    contenido.getBytes(StandardCharsets.UTF_8)
-            );
+    public String obtenerRol(String token) {
+        return obtenerClaims(token).get("rol", String.class);
+    }
 
-            return Base64.getUrlEncoder()
-                    .withoutPadding()
-                    .encodeToString(firma);
-
-        } catch (Exception e) {
-            throw new IllegalStateException(
-                    "No fue posible firmar el token.", e
-            );
-        }
+    private Claims obtenerClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(clave)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

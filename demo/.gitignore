@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Dependencias y secretos
+../node_modules/
+../frontend/node_modules/
+.env
+.env.*
+!.env.example
+../.env
+../.env.*
+!../.env.example
+# Certificados privados
+src/main/resources/keystore.p12
+*.pem
+*.key
+*.p12
+

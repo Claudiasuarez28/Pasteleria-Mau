@@ -1,4 +1,3 @@
-
 package com.example.demo.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class PasswordService {
 
     private final BCryptPasswordEncoder codificador =
-            new BCryptPasswordEncoder();
+            new BCryptPasswordEncoder(12);
 
     public String codificar(String contrasena) {
         return codificador.encode(contrasena);
